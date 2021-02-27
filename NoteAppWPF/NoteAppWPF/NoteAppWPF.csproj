@@ -108,5 +108,13 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NoteIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AddImage.png" />
+    <Resource Include="Resources\EditImage.png" />
+    <Resource Include="Resources\RemoveImage.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

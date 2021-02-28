@@ -6,12 +6,32 @@ namespace Core
     /// <summary>
     /// Класс <see cref="Note"/>, хранящий информацию о заметке
     /// </summary>
-    public class Note : ICloneable
+    public class Note : Notifier, ICloneable
     {
         /// <summary>
         /// Название заметки. Название не должно превышать 50 символов.
         /// </summary>
         private string _name = "Без названия";
+        
+        /// <summary>
+        /// Категория заметки.
+        /// </summary>
+        private NoteCategory _category;
+        
+        /// <summary>
+        /// Текст заметки.
+        /// </summary>
+        private string _text;
+        
+        /// <summary>
+        /// Время создания заметки
+        /// </summary>
+        private DateTime _creationTime;
+        
+        /// <summary>
+        /// Время последнего изменения заметки
+        /// </summary>
+        private DateTime _lastChangeTime;
 
         /// <summary>
         /// Возвращает и задает название заметки
@@ -28,14 +48,10 @@ namespace Core
 
                 _name = value;
                 LastChangeTime = DateTime.Now;
+                OnPropertyChanged("Name");
             }
         }
-
-        /// <summary>
-        /// Категория заметки.
-        /// </summary>
-        private NoteCategory _category;
-
+        
         /// <summary>
         /// Возвращает и задает категорию заметки
         /// </summary>
@@ -46,13 +62,9 @@ namespace Core
             {
                 _category = value;
                 LastChangeTime = DateTime.Now;
+                OnPropertyChanged("Category");
             }
         }
-
-        /// <summary>
-        /// Текст заметки.
-        /// </summary>
-        private string _text;
 
         /// <summary>
         /// Возвращает и задает текст заметки
@@ -64,18 +76,35 @@ namespace Core
             {
                 _text = value;
                 LastChangeTime = DateTime.Now;
+                OnPropertyChanged("Text");
             }
         }
 
         /// <summary>
         /// Возвращает и задает время создания заметки
         /// </summary>
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTime
+        {
+            get => _creationTime;
+            set
+            {
+                _creationTime = value;
+                OnPropertyChanged("CreationTime");
+            }
+        }
 
         /// <summary>
         /// Возвращает и задает время последнего изменения заметки
         /// </summary>
-        public DateTime LastChangeTime { get; set; }
+        public DateTime LastChangeTime
+        {
+            get => _lastChangeTime;
+            set
+            {
+                _lastChangeTime = value;
+                OnPropertyChanged("LastChangeTime");
+            }
+        }
 
         /// <summary>
         /// Создает экземпляр <see cref="Note"/>

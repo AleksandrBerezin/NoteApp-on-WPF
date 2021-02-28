@@ -27,6 +27,11 @@
             <Setter Property="Height" Value="20" />
             <Setter Property="Margin" Value="3" />
         </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="{DynamicResource DefaultColor}" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
     </Window.Resources>
     <Grid Margin="3">
         <Grid.RowDefinitions>
@@ -75,12 +80,15 @@
                     <ComboBox
                         x:Name="CategoryComboBox"
                         Width="162"
-                        Margin="3" />
+                        Margin="3"
+                        ItemsSource="{Binding NotesCategories}" />
                 </StackPanel>
                 <ListBox
                     x:Name="NotesListBox"
                     Grid.Row="1"
-                    Margin="3" />
+                    Margin="3"
+                    ItemsSource="{Binding CurrentDisplayedNotes, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedNote}" />
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
                     <Button x:Name="AddNoteButton">
                         <Button.Background>
@@ -100,23 +108,26 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Column="1" Margin="8,0,0,0">
+            <Grid
+                Grid.Column="1"
+                Margin="8,0,0,0"
+                DataContext="{Binding SelectedNote}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="86" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <StackPanel>
-                    <TextBlock
+                    <TextBox
                         x:Name="NoteTitleTextBlock"
                         Height="35"
                         Margin="6,0,0,0"
                         FontSize="21"
                         FontWeight="Bold"
-                        Text="Обсуждение после собрания" />
+                        Text="{Binding Name}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="6,0" Text="Category:" />
-                        <TextBlock x:Name="CategoryTextBlock" Text="Work" />
+                        <TextBox x:Name="CategoryTextBlock" Text="{Binding Category}" />
                     </StackPanel>
 
                     <StackPanel Margin="3,3,3,3" Orientation="Horizontal">
@@ -127,7 +138,8 @@
                         <DatePicker
                             x:Name="CreatedDatePicker"
                             Margin="10,3"
-                            IsEnabled="False" />
+                            IsEnabled="False"
+                            SelectedDate="{Binding CreationTime}" />
                         <TextBlock
                             Margin="10,0"
                             VerticalAlignment="Center"
@@ -135,7 +147,8 @@
                         <DatePicker
                             x:Name="ModifiedDatePicker"
                             Margin="3"
-                            IsEnabled="False" />
+                            IsEnabled="False"
+                            SelectedDate="{Binding LastChangeTime}" />
                     </StackPanel>
                 </StackPanel>
 
@@ -144,12 +157,10 @@
                     Grid.Row="1"
                     Margin="3"
                     Padding="0,3,0,0"
-                    IsReadOnly="True"
-                    VerticalScrollBarVisibility="Visible">
-                    <TextBox.Background>
-                        <SolidColorBrush Color="{DynamicResource DefaultColor}" />
-                    </TextBox.Background>
-                </TextBox>
+                    BorderThickness="1"
+                    Text="{Binding Text}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Visible" />
             </Grid>
         </Grid>
     </Grid>

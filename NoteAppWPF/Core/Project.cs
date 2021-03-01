@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Core
@@ -11,7 +12,7 @@ namespace Core
         /// <summary>
         /// Список всех заметок
         /// </summary>
-        private List<Note> _notes;
+        private ObservableCollection<Note> _notes;
         
         /// <summary>
         /// Текущая заметка
@@ -21,7 +22,7 @@ namespace Core
         /// <summary>
         /// Возвращает и задает список всех заметок
         /// </summary>
-        public List<Note> Notes
+        public ObservableCollection<Note> Notes
         {
             get => _notes;
             set
@@ -49,18 +50,18 @@ namespace Core
         /// </summary>
         public Project()
         {
-            Notes = new List<Note>();
+            Notes = new ObservableCollection<Note>();
         }
 
         /// <summary>
         /// Метод для сортировки списка заметок по дате изменения (по убыванию)
         /// </summary>
         /// <returns></returns>
-        public List<Note> LastChangeTimeSort()
+        public ObservableCollection<Note> LastChangeTimeSort()
         {
             var orderedList =
                 Notes.OrderByDescending(note => note.LastChangeTime);
-            return orderedList.ToList();
+            return new ObservableCollection<Note>(orderedList.ToList());
         }
 
         /// <summary>
@@ -69,10 +70,11 @@ namespace Core
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public List<Note> LastChangeTimeSortWithCategory(NoteCategory category)
+        public ObservableCollection<Note> LastChangeTimeSortWithCategory(NoteCategory category)
         {
-            return Notes.OrderByDescending(note =>
+            var orderedList = Notes.OrderByDescending(note =>
                 note.LastChangeTime).Where(note => note.Category == category).ToList();
+            return new ObservableCollection<Note>(orderedList);
         }
     }
 }

@@ -41,6 +41,8 @@
     </Window.Background>
     <Window.InputBindings>
         <KeyBinding Command="{Binding OpenAboutWindowCommand}" Gesture="F1" />
+        <KeyBinding Command="{Binding ExitCommand}" Gesture="Alt+F4" />
+        <KeyBinding Command="{Binding RemoveNoteCommand}" Gesture="Del" />
     </Window.InputBindings>
 
     <Grid Margin="3">
@@ -57,12 +59,19 @@
                 </LinearGradientBrush>
             </Menu.Background>
             <MenuItem Header="File">
-                <MenuItem Header="Exit" />
+                <MenuItem
+                    Command="{Binding ExitCommand}"
+                    CommandParameter="{Binding ElementName=Window}"
+                    Header="Exit"
+                    InputGestureText="Alt+F4" />
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Add Note" />
                 <MenuItem Header="Edit Note" />
-                <MenuItem Header="Remove Note" />
+                <MenuItem
+                    Command="{Binding RemoveNoteCommand}"
+                    Header="Remove Note"
+                    InputGestureText="Del" />
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem

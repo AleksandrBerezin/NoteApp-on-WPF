@@ -63,6 +63,11 @@ namespace NoteAppWPF.ViewModels
         private RelayCommand _openAboutWindowCommand;
 
         /// <summary>
+        /// Команда закрытия приложения
+        /// </summary>
+        private RelayCommand _exitCommand;
+
+        /// <summary>
         /// Возвращает и задает список заметок, сортированный по дате изменения
         /// </summary>
         public ObservableCollection<Note> CurrentDisplayedNotes
@@ -221,6 +226,22 @@ namespace NoteAppWPF.ViewModels
                        (_openAboutWindowCommand = new RelayCommand(obj =>
                        {
                            _aboutViewModel = new AboutViewModel();
+                       }));
+            }
+        }
+
+        /// <summary>
+        /// Возвращает команду закрытия приложения
+        /// </summary>
+        public RelayCommand ExitCommand
+        {
+            get
+            {
+                return _exitCommand ??
+                       (_exitCommand = new RelayCommand(obj =>
+                       {
+                           ProjectManager.SaveToFile(_project, ProjectManager.DefaultPath);
+                           ((MainWindow)obj).Close();
                        }));
             }
         }

@@ -16,6 +16,16 @@ namespace NoteAppWPF.ViewModels
         private Note _currentNote;
 
         /// <summary>
+        /// Команда закрытия окна с сохраненем данных
+        /// </summary>
+        private RelayCommand _okCommand;
+
+        /// <summary>
+        /// Команда закрытия окна без сохранения данных
+        /// </summary>
+        private RelayCommand _cancelCommand;
+
+        /// <summary>
         /// Возвращает и задает текущую заметку
         /// </summary>
         public Note CurrentNote
@@ -29,16 +39,53 @@ namespace NoteAppWPF.ViewModels
         }
 
         /// <summary>
+        /// Возвращает команду закрытия окна с сохраненем данных
+        /// </summary>
+        public RelayCommand OkCommand
+        {
+            get
+            {
+                return _okCommand ??
+                       (_okCommand = new RelayCommand(obj =>
+                       {
+                           var window = obj as NoteWindow;
+                           window.DialogResult = true;
+                           window.Close();
+                       }));
+            }
+        }
+
+        /// <summary>
+        /// Возвращает команду закрытия окна без сохранения данных
+        /// </summary>
+        public RelayCommand CancelCommand
+        {
+            get
+            {
+                return _cancelCommand ??
+                       (_cancelCommand = new RelayCommand(obj =>
+                       {
+                           ((NoteWindow)obj).Close();
+                       }));
+            }
+        }
+
+        /// <summary>
         /// Возвращает список категорий заметок
         /// </summary>
         public List<string> NoteCategories { get; private set; }
 
-        public NoteViewModel(Note note)
+        public NoteViewModel(ref Note note)
         {
             CurrentNote = note;
             NoteCategories = Enum.GetNames(typeof(NoteCategory)).ToList();
             var window = new NoteWindow(this);
-            window.ShowDialog();
+            var result = window.ShowDialog();
+
+            if (result == null || !result.Value)
+            {
+                note = null;
+            }
         }
     }
 }

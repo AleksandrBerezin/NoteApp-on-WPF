@@ -8,18 +8,26 @@
     Title="Add/Edit Note"
     Width="590"
     Height="492"
-    Background="#FFF0F0F0"
     mc:Ignorable="d">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Width" Value="75" />
             <Setter Property="Margin" Value="3" />
         </Style>
-        <Style x:Key="controlsStyle">
+        <Style x:Key="ControlsStyle">
             <Setter Property="Control.Margin" Value="3" />
             <Setter Property="Control.VerticalAlignment" Value="Center" />
         </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="IsEnabled" Value="False" />
+        </Style>
     </Window.Resources>
+    <Window.Background>
+        <SolidColorBrush Color="{StaticResource DefaultColor}" />
+    </Window.Background>
+
     <Grid Margin="10,3">
         <Grid.RowDefinitions>
             <RowDefinition Height="90" />
@@ -38,17 +46,18 @@
                 <RowDefinition Height="30" />
             </Grid.RowDefinitions>
 
-            <TextBlock Style="{StaticResource controlsStyle}" Text="Title:" />
+            <TextBlock Style="{StaticResource ControlsStyle}" Text="Title:" />
             <TextBox
                 x:Name="TitleTextBox"
                 Grid.Row="0"
                 Grid.Column="1"
                 Height="22"
-                Style="{StaticResource controlsStyle}" />
+                Style="{StaticResource ControlsStyle}"
+                Text="{Binding CurrentNote.Name}" />
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="0"
-                Style="{StaticResource controlsStyle}"
+                Style="{StaticResource ControlsStyle}"
                 Text="Category:" />
             <ComboBox
                 x:Name="CategoryComboBox"
@@ -57,30 +66,24 @@
                 Width="140"
                 Margin="3,4,0,4"
                 HorizontalAlignment="Left"
-                Style="{StaticResource controlsStyle}" />
+                ItemsSource="{Binding NoteCategories}"
+                Style="{StaticResource ControlsStyle}"
+                Text="{Binding CurrentNote.Category}" />
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="0"
-                Style="{StaticResource controlsStyle}"
+                Style="{StaticResource ControlsStyle}"
                 Text="Create:" />
             <StackPanel
                 Grid.Row="2"
                 Grid.Column="1"
                 Orientation="Horizontal">
-                <DatePicker
-                    x:Name="CreatedDatePicker"
-                    Height="24"
-                    Margin="3"
-                    IsEnabled="False" />
+                <DatePicker x:Name="CreatedDatePicker" SelectedDate="{Binding CurrentNote.CreationTime}" />
                 <TextBlock
-                    Margin="13,3,3,3"
+                    Margin="13,3,10,3"
                     VerticalAlignment="Center"
                     Text="Modified:" />
-                <DatePicker
-                    x:Name="ModifiedDatePicker"
-                    Height="24"
-                    Margin="3"
-                    IsEnabled="False" />
+                <DatePicker x:Name="ModifiedDatePicker" SelectedDate="{Binding CurrentNote.LastChangeTime}" />
             </StackPanel>
         </Grid>
 
@@ -88,6 +91,8 @@
             x:Name="NoteContentTextBox"
             Grid.Row="1"
             Margin="3"
+            Text="{Binding CurrentNote.Text}"
+            TextWrapping="Wrap"
             VerticalScrollBarVisibility="Visible" />
         <StackPanel
             Grid.Row="2"

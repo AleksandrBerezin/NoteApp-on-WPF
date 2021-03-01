@@ -8,34 +8,38 @@
     Title="About"
     Width="401"
     Height="302"
-    WindowStyle="ToolWindow"
     mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Canvas.Left" Value="10" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="IsReadOnly" Value="True" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Canvas>
-            <TextBlock
-                Canvas.Left="10"
+            <TextBox
                 Canvas.Top="17"
                 FontSize="18"
                 FontWeight="Bold"
                 Text="NoteApp" />
-            <TextBlock
-                Canvas.Left="10"
-                Canvas.Top="41"
-                Text="v. 1.0.0" />
-            <TextBlock
-                Canvas.Left="10"
-                Canvas.Top="82"
-                Text="Author: Aleksandr Berezin" />
-            <TextBlock Canvas.Left="10" Canvas.Top="119">
-                e-mail for feedback:<Hyperlink>aleksandr402@gmail.com</Hyperlink>
-            </TextBlock>
-            <TextBlock Canvas.Left="10" Canvas.Top="136">
-                Github:<Hyperlink>AleksandrBerezin \ NoteApp</Hyperlink>
-            </TextBlock>
-            <TextBlock
-                Canvas.Left="10"
-                Canvas.Top="245"
-                Text="2021 Aleksandr Berezin" />
+            <TextBox Canvas.Top="41" Text="v. 1.0.0" />
+            <TextBox Canvas.Top="82" Text="Author: Aleksandr Berezin" />
+            <TextBox Canvas.Top="119" Text="e-mail for feedback:" />
+            <TextBox
+                Canvas.Left="120"
+                Canvas.Top="119"
+                Foreground="Blue"
+                Text="aleksandr402@gmail.com"
+                TextDecorations="Underline" />
+            <TextBox Canvas.Top="136" Text="Github:" />
+            <TextBox
+                Canvas.Left="52"
+                Canvas.Top="136"
+                Foreground="Blue"
+                Text="AleksandrBerezin \ NoteAppWPF"
+                TextDecorations="Underline" />
+            <TextBox Canvas.Bottom="10" Text="2021 Aleksandr Berezin" />
         </Canvas>
     </Grid>
 </Window>

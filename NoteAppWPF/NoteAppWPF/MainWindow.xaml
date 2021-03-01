@@ -8,7 +8,6 @@
     Title="NoteApp"
     Width="833"
     Height="500"
-    Background="#FFF0F0F0"
     Icon="Resources/NoteIcon.ico"
     mc:Ignorable="d">
     <Window.Resources>
@@ -32,7 +31,17 @@
             <Setter Property="IsReadOnly" Value="True" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
     </Window.Resources>
+    <Window.Background>
+        <SolidColorBrush Color="{StaticResource DefaultColor}" />
+    </Window.Background>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding OpenAboutWindowCommand}" Gesture="F1" />
+    </Window.InputBindings>
+
     <Grid Margin="3">
         <Grid.RowDefinitions>
             <RowDefinition Height="22" />
@@ -55,7 +64,11 @@
                 <MenuItem x:Name="RemoveNoteStrip" Header="Remove Note" />
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem x:Name="AboutNoteStrip" Header="About" />
+                <MenuItem
+                    x:Name="AboutNoteStrip"
+                    Command="{Binding OpenAboutWindowCommand}"
+                    Header="About"
+                    InputGestureText="F1" />
             </MenuItem>
         </Menu>
 
@@ -73,15 +86,12 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        Margin="6,3,3,3"
-                        VerticalAlignment="Center"
-                        Text="Show Category:" />
+                    <TextBlock Margin="6,3,3,3" Text="Show Category:" />
                     <ComboBox
                         x:Name="CategoryComboBox"
                         Width="162"
                         Margin="3"
-                        ItemsSource="{Binding NotesCategories}" />
+                        ItemsSource="{Binding NoteCategories}" />
                 </StackPanel>
                 <ListBox
                     x:Name="NotesListBox"
@@ -90,12 +100,12 @@
                     ItemsSource="{Binding CurrentDisplayedNotes, UpdateSourceTrigger=PropertyChanged}"
                     SelectedItem="{Binding SelectedNote}" />
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <Button x:Name="AddNoteButton">
+                    <Button x:Name="AddNoteButton" Command="{Binding AddNoteCommand}">
                         <Button.Background>
                             <ImageBrush ImageSource="Resources/AddImage.png" Stretch="Uniform" />
                         </Button.Background>
                     </Button>
-                    <Button x:Name="EditNoteButton">
+                    <Button x:Name="EditNoteButton" Command="{Binding EditNoteCommand}">
                         <Button.Background>
                             <ImageBrush ImageSource="Resources/EditImage.png" Stretch="Uniform" />
                         </Button.Background>
@@ -131,19 +141,13 @@
                     </StackPanel>
 
                     <StackPanel Margin="3,3,3,3" Orientation="Horizontal">
-                        <TextBlock
-                            Margin="3,0"
-                            VerticalAlignment="Center"
-                            Text="Created:" />
+                        <TextBlock Margin="3,0" Text="Created:" />
                         <DatePicker
                             x:Name="CreatedDatePicker"
                             Margin="10,3"
                             IsEnabled="False"
                             SelectedDate="{Binding CreationTime}" />
-                        <TextBlock
-                            Margin="10,0"
-                            VerticalAlignment="Center"
-                            Text="Modified:" />
+                        <TextBlock Margin="10,0" Text="Modified:" />
                         <DatePicker
                             x:Name="ModifiedDatePicker"
                             Margin="3"

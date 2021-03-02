@@ -76,7 +76,6 @@ namespace NoteAppWPF.ViewModels
             set
             {
                 _currentDisplayedNotes = value;
-                _project.Notes = _currentDisplayedNotes;
                 OnPropertyChanged("CurrentDisplayedNotes");
             }
         }
@@ -104,6 +103,16 @@ namespace NoteAppWPF.ViewModels
             set
             {
                 _selectedCategory = value;
+                if (_selectedCategory == "All")
+                {
+                    CurrentDisplayedNotes = _project.LastChangeTimeSort();
+                }
+                else
+                {
+                    CurrentDisplayedNotes = _project.LastChangeTimeSortWithCategory(
+                        (NoteCategory) _selectedCategory);
+                }
+
                 OnPropertyChanged("SelectedCategory");
             }
         }
@@ -130,7 +139,9 @@ namespace NoteAppWPF.ViewModels
                                return;
                            }
 
-                           CurrentDisplayedNotes.Add(note);
+                           _project.Notes.Add(note);
+
+                           FillNotesListAfterEdit(note);
                            ProjectManager.SaveToFile(_project, ProjectManager.DefaultPath);
                        }));
             }
@@ -152,21 +163,26 @@ namespace NoteAppWPF.ViewModels
                            }
 
                            var note = (Note) SelectedNote.Clone();
+                           var realIndexInProject = _project.Notes.IndexOf(note);
+
                            _noteViewModel = new NoteViewModel(ref note);
                            if (note == null)
                            {
                                return;
                            }
 
-                           var indexInProject = CurrentDisplayedNotes.IndexOf(SelectedNote);
-                           CurrentDisplayedNotes.RemoveAt(indexInProject);
-                           CurrentDisplayedNotes.Insert(indexInProject, note);
+                           _project.Notes.RemoveAt(realIndexInProject);
+                           _project.Notes.Insert(realIndexInProject, note);
 
+                           FillNotesListAfterEdit(note);
                            ProjectManager.SaveToFile(_project, ProjectManager.DefaultPath);
                        }));
             }
         }
 
+        /// <summary>
+        /// Возвращает команду удаления заметки
+        /// </summary>
         public RelayCommand RemoveNoteCommand
         {
             get
@@ -188,26 +204,9 @@ namespace NoteAppWPF.ViewModels
 
                            if (result == MessageBoxResult.OK)
                            {
+                               _project.Notes.Remove(SelectedNote);
                                CurrentDisplayedNotes.Remove(SelectedNote);
-
-                               if (SelectedCategory != null && SelectedCategory != "All")
-                               {
-                                   CurrentDisplayedNotes = _project.LastChangeTimeSortWithCategory(
-                                       (NoteCategory)SelectedCategory);
-                               }
-                               else
-                               {
-                                   CurrentDisplayedNotes = _project.LastChangeTimeSort();
-                               }
-
-                               if (CurrentDisplayedNotes.Count > 0)
-                               {
-                                   SelectedNote = CurrentDisplayedNotes[0];
-                               }
-                               else
-                               {
-                                   SelectedNote = null;
-                               }
+                               FillNotesListAfterEdit(null);
 
                                ProjectManager.SaveToFile(_project, ProjectManager.DefaultPath);
                            }
@@ -244,6 +243,32 @@ namespace NoteAppWPF.ViewModels
                            ((MainWindow)obj).Close();
                        }));
             }
+        }
+
+        /// <summary>
+        /// Метод для заполнения списка заметок после и выбора текущей заметки
+        /// после добавления, редактирования или удаления заметки
+        /// </summary>
+        private void FillNotesListAfterEdit(Note note)
+        {
+            if (SelectedCategory != null && SelectedCategory != "All")
+            {
+                CurrentDisplayedNotes = _project.LastChangeTimeSortWithCategory(
+                    (NoteCategory)SelectedCategory);
+
+                if (note.Category.Equals((NoteCategory)SelectedCategory))
+                {
+                    SelectedNote = note;
+                    return;
+                }
+            }
+            else
+            {
+                CurrentDisplayedNotes = _project.LastChangeTimeSort();
+                SelectedNote = CurrentDisplayedNotes[0];
+            }
+
+            SelectedNote = CurrentDisplayedNotes.Count > 0 ? CurrentDisplayedNotes[0] : null;
         }
 
         public MainViewModel()

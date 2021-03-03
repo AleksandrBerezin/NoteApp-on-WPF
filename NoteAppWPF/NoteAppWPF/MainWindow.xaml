@@ -12,6 +12,12 @@
     Icon="Resources/NoteIcon.ico"
     mc:Ignorable="d">
     <Window.Resources>
+        <Image
+            x:Key="AddImage"
+            Source="Resources/AddImage.png"
+            Stretch="Uniform" />
+        <Image x:Key="EditImage" Source="Resources/EditImage.png" />
+        <Image x:Key="RemoveImage" Source="Resources/RemoveImage.png" />
         <Color
             x:Key="DefaultColor"
             A="255"
@@ -21,11 +27,12 @@
         <Style TargetType="MenuItem">
             <Setter Property="Padding" Value="8,0,8,0" />
         </Style>
-        <Style TargetType="Button">
+        <Style BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}" />
-            <Setter Property="Width" Value="25" />
-            <Setter Property="Height" Value="20" />
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="26" />
             <Setter Property="Margin" Value="3" />
+            <Setter Property="Cursor" Value="Hand" />
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="{DynamicResource DefaultColor}" />
@@ -108,21 +115,9 @@
                     ItemsSource="{Binding CurrentDisplayedNotes, UpdateSourceTrigger=PropertyChanged}"
                     SelectedItem="{Binding SelectedNote}" />
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <Button Command="{Binding AddNoteCommand}">
-                        <Button.Background>
-                            <ImageBrush ImageSource="Resources/AddImage.png" Stretch="Uniform" />
-                        </Button.Background>
-                    </Button>
-                    <Button Command="{Binding EditNoteCommand}">
-                        <Button.Background>
-                            <ImageBrush ImageSource="Resources/EditImage.png" Stretch="Uniform" />
-                        </Button.Background>
-                    </Button>
-                    <Button Command="{Binding RemoveNoteCommand}">
-                        <Button.Background>
-                            <ImageBrush ImageSource="Resources/RemoveImage.png" Stretch="Uniform" />
-                        </Button.Background>
-                    </Button>
+                    <Button Command="{Binding AddNoteCommand}" Content="{StaticResource AddImage}" />
+                    <Button Command="{Binding EditNoteCommand}" Content="{StaticResource EditImage}" />
+                    <Button Command="{Binding RemoveNoteCommand}" Content="{StaticResource RemoveImage}" />
                 </StackPanel>
             </Grid>
 

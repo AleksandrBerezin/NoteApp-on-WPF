@@ -42,6 +42,10 @@
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="IsEnabled" Value="False" />
+        </Style>
     </Window.Resources>
     <Window.Background>
         <SolidColorBrush Color="{StaticResource DefaultColor}" />
@@ -144,15 +148,9 @@
 
                     <StackPanel Margin="3,3,3,3" Orientation="Horizontal">
                         <TextBlock Margin="3,0" Text="Created:" />
-                        <DatePicker
-                            Margin="10,3"
-                            IsEnabled="False"
-                            SelectedDate="{Binding CreationTime}" />
+                        <DatePicker Margin="10,3" SelectedDate="{Binding CreationTime}" />
                         <TextBlock Margin="10,0" Text="Modified:" />
-                        <DatePicker
-                            Margin="3"
-                            IsEnabled="False"
-                            SelectedDate="{Binding LastChangeTime}" />
+                        <DatePicker Margin="3" SelectedDate="{Binding LastChangeTime}" />
                     </StackPanel>
                 </StackPanel>
 

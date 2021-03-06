@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using Core;
+﻿using System;
+using System.Windows;
 using NoteAppWPF.ViewModels;
 
 namespace NoteAppWPF
@@ -13,6 +13,11 @@ namespace NoteAppWPF
         {
             InitializeComponent();
             DataContext = noteViewModel;
+
+            if (noteViewModel.CloseAction == null)
+            {
+                noteViewModel.CloseAction = new Action(this.Close);
+            }
         }
     }
 }

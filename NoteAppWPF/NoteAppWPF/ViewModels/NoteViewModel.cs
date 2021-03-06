@@ -11,6 +11,11 @@ namespace NoteAppWPF.ViewModels
     public class NoteViewModel : Notifier
     {
         /// <summary>
+        /// Результат работы окна
+        /// </summary>
+        private bool _dialogResult = false;
+
+        /// <summary>
         /// Текущая заметка
         /// </summary>
         private Note _currentNote;
@@ -39,6 +44,11 @@ namespace NoteAppWPF.ViewModels
         }
 
         /// <summary>
+        /// Возвращает и задает действие при закрытии окна
+        /// </summary>
+        public Action CloseAction { get; set; }
+
+        /// <summary>
         /// Возвращает команду закрытия окна с сохраненем данных
         /// </summary>
         public RelayCommand OkCommand
@@ -48,9 +58,12 @@ namespace NoteAppWPF.ViewModels
                 return _okCommand ??
                        (_okCommand = new RelayCommand(obj =>
                        {
-                           var window = obj as NoteWindow;
-                           window.DialogResult = true;
-                           window.Close();
+                           var isError = (bool) obj;
+                           if (!isError)
+                           {
+                               _dialogResult = true;
+                               CloseAction?.Invoke();
+                           }
                        }));
             }
         }
@@ -65,7 +78,7 @@ namespace NoteAppWPF.ViewModels
                 return _cancelCommand ??
                        (_cancelCommand = new RelayCommand(obj =>
                        {
-                           ((NoteWindow)obj).Close();
+                           CloseAction?.Invoke();
                        }));
             }
         }
@@ -80,9 +93,9 @@ namespace NoteAppWPF.ViewModels
             CurrentNote = note;
             NoteCategories = Enum.GetNames(typeof(NoteCategory)).ToList();
             var window = new NoteWindow(this);
-            var result = window.ShowDialog();
+            window.ShowDialog();
 
-            if (result == null || !result.Value)
+            if (!_dialogResult)
             {
                 note = null;
             }

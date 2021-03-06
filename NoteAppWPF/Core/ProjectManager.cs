@@ -67,7 +67,7 @@ namespace Core
                 return new Project();
             }
 
-            return project;
+            return project ?? new Project();
         }
     }
 }

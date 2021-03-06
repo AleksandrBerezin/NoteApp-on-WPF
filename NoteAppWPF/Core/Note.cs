@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace Core
@@ -6,7 +7,7 @@ namespace Core
     /// <summary>
     /// Класс <see cref="Note"/>, хранящий информацию о заметке
     /// </summary>
-    public class Note : Notifier, ICloneable
+    public class Note : Notifier, ICloneable, IDataErrorInfo
     {
         /// <summary>
         /// Название заметки. Название не должно превышать 50 символов.
@@ -41,11 +42,6 @@ namespace Core
             get => _name;
             set
             {
-                if (value.Length > 50)
-                {
-                    throw new ArgumentException("Название не должно превышать 50 символов.");
-                }
-
                 _name = value;
                 LastChangeTime = DateTime.Now;
                 OnPropertyChanged("Name");
@@ -105,6 +101,33 @@ namespace Core
                 OnPropertyChanged("LastChangeTime");
             }
         }
+
+        [JsonIgnore]
+        /// <inheritdoc/>
+        public string this[string columnName]
+        {
+            get
+            {
+                var error = String.Empty;
+                switch (columnName)
+                {
+                    case "Name":
+                    {
+                        if (Name.Length > 50)
+                        {
+                            error = "Название не должно превышать 50 символов.";
+                        }
+                        break;
+                    }
+                }
+
+                return error;
+            }
+        }
+
+        [JsonIgnore]
+        /// <inheritdoc/>
+        public string Error => throw new NotImplementedException();
 
         /// <summary>
         /// Создает экземпляр <see cref="Note"/>

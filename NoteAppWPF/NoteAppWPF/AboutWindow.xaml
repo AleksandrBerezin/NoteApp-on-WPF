@@ -9,6 +9,9 @@
     Width="401"
     Height="302"
     mc:Ignorable="d">
+    <Window.Icon>
+        <DrawingImage />
+    </Window.Icon>
     <Window.Resources>
         <Style TargetType="TextBox">
             <Setter Property="Canvas.Left" Value="10" />

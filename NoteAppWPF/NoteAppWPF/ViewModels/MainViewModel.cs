@@ -76,7 +76,7 @@ namespace NoteAppWPF.ViewModels
             set
             {
                 _currentDisplayedNotes = value;
-                OnPropertyChanged("CurrentDisplayedNotes");
+                OnPropertyChanged(nameof(CurrentDisplayedNotes));
             }
         }
 
@@ -90,7 +90,7 @@ namespace NoteAppWPF.ViewModels
             {
                 _selectedNote = value;
                 _project.CurrentNote = _selectedNote;
-                OnPropertyChanged("SelectedNote");
+                OnPropertyChanged(nameof(SelectedNote));
             }
         }
 
@@ -113,7 +113,7 @@ namespace NoteAppWPF.ViewModels
                         (NoteCategory) _selectedCategory);
                 }
 
-                OnPropertyChanged("SelectedCategory");
+                OnPropertyChanged(nameof(SelectedCategory));
             }
         }
 

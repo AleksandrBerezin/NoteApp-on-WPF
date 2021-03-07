@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Core;
 
 namespace NoteAppWPF.ViewModels
@@ -39,7 +40,7 @@ namespace NoteAppWPF.ViewModels
             set
             {
                 _currentNote = value;
-                OnPropertyChanged("CurrentNote");
+                OnPropertyChanged(nameof(CurrentNote));
             }
         }
 
@@ -59,7 +60,14 @@ namespace NoteAppWPF.ViewModels
                        (_okCommand = new RelayCommand(obj =>
                        {
                            var isError = (bool) obj;
-                           if (!isError)
+                           if (isError)
+                           {
+                               MessageBox.Show("Invalid values entered",
+                                   "Error",
+                                   MessageBoxButton.OK,
+                                   MessageBoxImage.Error);
+                           }
+                           else
                            {
                                _dialogResult = true;
                                CloseAction?.Invoke();

@@ -28,7 +28,7 @@ namespace Core
             set
             {
                 _notes = value;
-                OnPropertyChanged("Notes");
+                OnPropertyChanged(nameof(Notes));
             }
         }
 
@@ -41,7 +41,7 @@ namespace Core
             set
             {
                 _currentNote = value;
-                OnPropertyChanged("CurrentNote");
+                OnPropertyChanged(nameof(CurrentNote));
             }
         }
 

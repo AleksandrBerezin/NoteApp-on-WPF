@@ -44,7 +44,7 @@ namespace Core
             {
                 _name = value;
                 LastChangeTime = DateTime.Now;
-                OnPropertyChanged("Name");
+                OnPropertyChanged(nameof(Name));
             }
         }
         
@@ -58,7 +58,7 @@ namespace Core
             {
                 _category = value;
                 LastChangeTime = DateTime.Now;
-                OnPropertyChanged("Category");
+                OnPropertyChanged(nameof(Category));
             }
         }
 
@@ -72,7 +72,7 @@ namespace Core
             {
                 _text = value;
                 LastChangeTime = DateTime.Now;
-                OnPropertyChanged("Text");
+                OnPropertyChanged(nameof(Text));
             }
         }
 
@@ -85,7 +85,7 @@ namespace Core
             set
             {
                 _creationTime = value;
-                OnPropertyChanged("CreationTime");
+                OnPropertyChanged(nameof(CreationTime));
             }
         }
 
@@ -98,7 +98,7 @@ namespace Core
             set
             {
                 _lastChangeTime = value;
-                OnPropertyChanged("LastChangeTime");
+                OnPropertyChanged(nameof(LastChangeTime));
             }
         }
 
@@ -111,7 +111,7 @@ namespace Core
                 var error = String.Empty;
                 switch (columnName)
                 {
-                    case "Name":
+                    case nameof(Name):
                     {
                         if (Name.Length > 50)
                         {

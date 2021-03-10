@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteAppWPF", "NoteAppWPF\No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{5CFC0BB2-F8CE-41CE-9A7B-729F9D3FFC3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.UnitTests", "Core.UnitTests\Core.UnitTests.csproj", "{2D4131AD-57DC-4823-AA92-C8CF3B569F11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5CFC0BB2-F8CE-41CE-9A7B-729F9D3FFC3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CFC0BB2-F8CE-41CE-9A7B-729F9D3FFC3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CFC0BB2-F8CE-41CE-9A7B-729F9D3FFC3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D4131AD-57DC-4823-AA92-C8CF3B569F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D4131AD-57DC-4823-AA92-C8CF3B569F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D4131AD-57DC-4823-AA92-C8CF3B569F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D4131AD-57DC-4823-AA92-C8CF3B569F11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

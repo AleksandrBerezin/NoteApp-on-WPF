@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Core;
+using NoteAppWPF.Services;
 
 namespace NoteAppWPF.ViewModels
 {
@@ -30,6 +31,16 @@ namespace NoteAppWPF.ViewModels
         /// Команда закрытия окна без сохранения данных
         /// </summary>
         private RelayCommand _cancelCommand;
+
+        /// <summary>
+        /// Вывод сообщения
+        /// </summary>
+        private MessageBoxService _messageBoxService;
+
+        /// <summary>
+        /// Открытие окна
+        /// </summary>
+        private NoteWindowService _noteWindowService;
 
         /// <summary>
         /// Возвращает и задает текущую заметку
@@ -62,10 +73,8 @@ namespace NoteAppWPF.ViewModels
                            var isError = (bool) obj;
                            if (isError)
                            {
-                               MessageBox.Show("Invalid values entered",
-                                   "Error",
-                                   MessageBoxButton.OK,
-                                   MessageBoxImage.Error);
+                               _messageBoxService.ShowMessage("Invalid values entered", "Error",
+                                   MessageBoxButton.OK, MessageBoxImage.Error);
                            }
                            else
                            {
@@ -98,10 +107,12 @@ namespace NoteAppWPF.ViewModels
 
         public NoteViewModel(ref Note note)
         {
+            _messageBoxService = new MessageBoxService();
             CurrentNote = note;
             NoteCategories = Enum.GetNames(typeof(NoteCategory)).ToList();
-            var window = new NoteWindow(this);
-            window.ShowDialog();
+
+            _noteWindowService = new NoteWindowService();
+            _noteWindowService.OpenWindow(this);
 
             if (!_dialogResult)
             {

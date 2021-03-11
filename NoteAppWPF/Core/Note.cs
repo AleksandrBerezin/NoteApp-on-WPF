@@ -23,12 +23,7 @@ namespace Core
         /// Текст заметки.
         /// </summary>
         private string _text;
-        
-        /// <summary>
-        /// Время создания заметки
-        /// </summary>
-        private DateTime _creationTime;
-        
+
         /// <summary>
         /// Время последнего изменения заметки
         /// </summary>
@@ -44,7 +39,6 @@ namespace Core
             {
                 _name = value;
                 LastChangeTime = DateTime.Now;
-                OnPropertyChanged(nameof(Name));
             }
         }
         
@@ -58,7 +52,6 @@ namespace Core
             {
                 _category = value;
                 LastChangeTime = DateTime.Now;
-                OnPropertyChanged(nameof(Category));
             }
         }
 
@@ -72,22 +65,13 @@ namespace Core
             {
                 _text = value;
                 LastChangeTime = DateTime.Now;
-                OnPropertyChanged(nameof(Text));
             }
         }
 
         /// <summary>
         /// Возвращает и задает время создания заметки
         /// </summary>
-        public DateTime CreationTime
-        {
-            get => _creationTime;
-            set
-            {
-                _creationTime = value;
-                OnPropertyChanged(nameof(CreationTime));
-            }
-        }
+        public DateTime CreationTime { get; set; }
 
         /// <summary>
         /// Возвращает и задает время последнего изменения заметки

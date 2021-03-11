@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using NoteAppWPF.ViewModels;
+﻿using System.Windows;
 
 namespace NoteAppWPF
 {
@@ -9,15 +7,9 @@ namespace NoteAppWPF
     /// </summary>
     public partial class NoteWindow : Window
     {
-        public NoteWindow(NoteViewModel noteViewModel)
+        public NoteWindow()
         {
             InitializeComponent();
-            DataContext = noteViewModel;
-
-            if (noteViewModel.CloseAction == null)
-            {
-                noteViewModel.CloseAction = new Action(this.Close);
-            }
         }
     }
 }

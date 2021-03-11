@@ -7,43 +7,17 @@ namespace Core
     /// <summary>
     /// Класс <see cref="Project"/>, хранящий список заметок
     /// </summary>
-    public class Project : Notifier
+    public class Project
     {
-        /// <summary>
-        /// Список всех заметок
-        /// </summary>
-        private ObservableCollection<Note> _notes;
-        
-        /// <summary>
-        /// Текущая заметка
-        /// </summary>
-        private Note _currentNote;
-
         /// <summary>
         /// Возвращает и задает список всех заметок
         /// </summary>
-        public ObservableCollection<Note> Notes
-        {
-            get => _notes;
-            set
-            {
-                _notes = value;
-                OnPropertyChanged(nameof(Notes));
-            }
-        }
+        public ObservableCollection<Note> Notes { get; set; }
 
         /// <summary>
         /// Возвращает и задает текущую заметку
         /// </summary>
-        public Note CurrentNote
-        {
-            get => _currentNote;
-            set
-            {
-                _currentNote = value;
-                OnPropertyChanged(nameof(CurrentNote));
-            }
-        }
+        public Note CurrentNote { get; set; }
 
         /// <summary>
         /// Создает экземпляр <see cref="Project"/>

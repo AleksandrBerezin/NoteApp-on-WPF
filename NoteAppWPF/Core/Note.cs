@@ -7,7 +7,7 @@ namespace Core
     /// <summary>
     /// Класс <see cref="Note"/>, хранящий информацию о заметке
     /// </summary>
-    public class Note : Notifier, ICloneable, IDataErrorInfo
+    public class Note : INotifyPropertyChanged, ICloneable, IDataErrorInfo
     {
         /// <summary>
         /// Название заметки. Название не должно превышать 50 символов.
@@ -109,6 +109,8 @@ namespace Core
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         [JsonIgnore]
         /// <inheritdoc/>
         public string Error => throw new NotImplementedException();
@@ -154,6 +156,11 @@ namespace Core
             Text = text;
             CreationTime = creationTime;
             LastChangeTime = lastChangeTime;
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

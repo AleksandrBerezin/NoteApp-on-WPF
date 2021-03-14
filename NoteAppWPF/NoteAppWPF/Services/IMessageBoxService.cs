@@ -14,6 +14,6 @@ namespace NoteAppWPF.Services
         /// <param name="caption"></param>
         /// <param name="button"></param>
         /// <param name="icon"></param>
-        void ShowMessage(string message, string caption, MessageBoxButton button, MessageBoxImage icon);
+        bool ShowMessage(string message, string caption, MessageBoxButton button, MessageBoxImage icon);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Core;
+using GalaSoft.MvvmLight;
 using NoteAppWPF.Services;
 
 namespace NoteAppWPF.ViewModels
@@ -10,7 +11,7 @@ namespace NoteAppWPF.ViewModels
     /// <summary>
     /// Модель-представление окна <see cref="NoteWindow"/>
     /// </summary>
-    public class NoteViewModel : Notifier
+    public class NoteViewModel : ViewModelBase
     {
         /// <summary>
         /// Результат работы окна
@@ -33,14 +34,14 @@ namespace NoteAppWPF.ViewModels
         private RelayCommand _cancelCommand;
 
         /// <summary>
-        /// Вывод сообщения
+        ///Сервис вывода сообщения
         /// </summary>
         private MessageBoxService _messageBoxService;
 
         /// <summary>
-        /// Открытие окна
+        /// Сервис открытия окна
         /// </summary>
-        private NoteWindowService _noteWindowService;
+        private WindowService _noteWindowService;
 
         /// <summary>
         /// Возвращает и задает текущую заметку
@@ -51,7 +52,7 @@ namespace NoteAppWPF.ViewModels
             set
             {
                 _currentNote = value;
-                OnPropertyChanged(nameof(CurrentNote));
+                RaisePropertyChanged(nameof(CurrentNote));
             }
         }
 
@@ -111,7 +112,7 @@ namespace NoteAppWPF.ViewModels
             CurrentNote = note;
             NoteCategories = Enum.GetNames(typeof(NoteCategory)).ToList();
 
-            _noteWindowService = new NoteWindowService();
+            _noteWindowService = new WindowService();
             _noteWindowService.OpenWindow(this);
 
             if (!_dialogResult)

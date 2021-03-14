@@ -1,9 +1,9 @@
-﻿using NoteAppWPF.ViewModels;
+﻿using GalaSoft.MvvmLight;
 
 namespace NoteAppWPF.Services
 {
     /// <summary>
-    /// Интерфейс <see cref="INoteWindowService"/> для работы с окном редактирования заметки
+    /// Интерфейс <see cref="INoteWindowService"/> для работы с окнами приложения
     /// </summary>
     public interface INoteWindowService
     {
@@ -11,6 +11,6 @@ namespace NoteAppWPF.Services
         /// Открытие окна
         /// </summary>
         /// <param name="viewModel"></param>
-        void OpenWindow(NoteViewModel viewModel);
+        void OpenWindow(ViewModelBase viewModel);
     }
 }

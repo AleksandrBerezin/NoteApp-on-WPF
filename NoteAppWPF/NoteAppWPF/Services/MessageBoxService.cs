@@ -8,9 +8,10 @@ namespace NoteAppWPF.Services
     public class MessageBoxService : IMessageBoxService
     {
         /// <inheritdoc/>
-        public void ShowMessage(string message, string caption, MessageBoxButton button, MessageBoxImage icon)
+        public bool ShowMessage(string message, string caption, MessageBoxButton button, MessageBoxImage icon)
         {
-            MessageBox.Show(message, caption, button, icon);
+            var result = MessageBox.Show(message, caption, button, icon);
+            return result is MessageBoxResult.OK;
         }
     }
 }

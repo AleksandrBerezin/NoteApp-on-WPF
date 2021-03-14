@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="Note.cs" />
     <Compile Include="NoteCategory.cs" />
-    <Compile Include="Notifier.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using Core;
+using GalaSoft.MvvmLight;
+using NoteAppWPF.Services;
 
 namespace NoteAppWPF.ViewModels
 {
     /// <summary>
     /// Модель-представление окна <see cref="MainWindow"/>
     /// </summary>
-    public class MainViewModel : Notifier
+    public class MainViewModel : ViewModelBase
     {
         /// <summary>
         /// Модель-представление окна редактирования заметки
@@ -68,6 +69,11 @@ namespace NoteAppWPF.ViewModels
         private RelayCommand _exitCommand;
 
         /// <summary>
+        ///Сервис вывода сообщения
+        /// </summary>
+        private MessageBoxService _messageBoxService;
+
+        /// <summary>
         /// Возвращает и задает список заметок, сортированный по дате изменения
         /// </summary>
         public ObservableCollection<Note> CurrentDisplayedNotes
@@ -76,7 +82,7 @@ namespace NoteAppWPF.ViewModels
             set
             {
                 _currentDisplayedNotes = value;
-                OnPropertyChanged(nameof(CurrentDisplayedNotes));
+                RaisePropertyChanged(nameof(CurrentDisplayedNotes));
             }
         }
 
@@ -90,7 +96,7 @@ namespace NoteAppWPF.ViewModels
             {
                 _selectedNote = value;
                 _project.CurrentNote = _selectedNote;
-                OnPropertyChanged(nameof(SelectedNote));
+                RaisePropertyChanged(nameof(SelectedNote));
             }
         }
 
@@ -113,7 +119,7 @@ namespace NoteAppWPF.ViewModels
                         (NoteCategory) _selectedCategory);
                 }
 
-                OnPropertyChanged(nameof(SelectedCategory));
+                RaisePropertyChanged(nameof(SelectedCategory));
             }
         }
 
@@ -195,14 +201,13 @@ namespace NoteAppWPF.ViewModels
                                return;
                            }
 
-                           var result = MessageBox.Show(
+                           var result = _messageBoxService.ShowMessage(
                                $"Do you really want to remove this note: {SelectedNote}",
                                "Remove Note",
                                MessageBoxButton.OKCancel,
-                               MessageBoxImage.Warning,
-                               MessageBoxResult.Cancel);
+                               MessageBoxImage.Warning);
 
-                           if (result == MessageBoxResult.OK)
+                           if (result)
                            {
                                _project.Notes.Remove(SelectedNote);
                                CurrentDisplayedNotes.Remove(SelectedNote);
@@ -273,6 +278,7 @@ namespace NoteAppWPF.ViewModels
 
         public MainViewModel()
         {
+            _messageBoxService = new MessageBoxService();
             _project = ProjectManager.LoadFromFile(ProjectManager.DefaultPath);
 
             NoteCategories = new List<object>();

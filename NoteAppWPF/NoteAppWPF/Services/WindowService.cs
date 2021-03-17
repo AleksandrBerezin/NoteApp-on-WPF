@@ -5,6 +5,7 @@ using NoteAppWPF.ViewModels;
 
 namespace NoteAppWPF.Services
 {
+    // TODO: для разных окон лучше делать разные сервисы
     /// <summary>
     /// Класс <see cref="WindowService"/> для работы с окнами приложения
     /// </summary>

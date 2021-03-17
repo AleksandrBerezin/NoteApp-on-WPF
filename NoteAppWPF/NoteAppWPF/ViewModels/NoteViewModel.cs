@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Core;
+// TODO: если подключил библиотеку, тогда используй её во всех VM и реализациях INPC
 using GalaSoft.MvvmLight;
 using NoteAppWPF.Services;
 
 namespace NoteAppWPF.ViewModels
 {
+    // TODO: В именах классов использовать сокращение VM (в названиях папок оставлять без сокращения)
     /// <summary>
     /// Модель-представление окна <see cref="NoteWindow"/>
     /// </summary>
@@ -101,17 +103,22 @@ namespace NoteAppWPF.ViewModels
             }
         }
 
+        // TODO: сделать лист NoteCategory, а биндинг через конвертер 
         /// <summary>
         /// Возвращает список категорий заметок
         /// </summary>
         public List<string> NoteCategories { get; private set; }
 
+        // TODO: xml
         public NoteViewModel(ref Note note)
         {
             _messageBoxService = new MessageBoxService();
             CurrentNote = note;
             NoteCategories = Enum.GetNames(typeof(NoteCategory)).ToList();
 
+            // TODO: WindowService должен хранить ссылку на VM, а не VM хранить сервис
+            // т.е. сервис хранится в том окне, откуда он вызывается, а вызываться он должен из главного окна
+            // иначе не очевидно, что при вызове конструктора будет загораться окно, да и связка жесткая
             _noteWindowService = new WindowService();
             _noteWindowService.OpenWindow(this);
 

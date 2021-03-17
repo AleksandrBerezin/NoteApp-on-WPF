@@ -13,11 +13,13 @@ namespace NoteAppWPF.ViewModels
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        // TODO: зачем хранить как поле, если она используется только в команде?
         /// <summary>
         /// Модель-представление окна редактирования заметки
         /// </summary>
         private NoteViewModel _noteViewModel;
 
+        // TODO: зачем хранить как поле
         /// <summary>
         /// Модель-представление справочного окна
         /// </summary>
@@ -38,6 +40,7 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private Note _selectedNote;
 
+        // TODO: Почему object? Хотя бы string, если надо совместить enum и string
         /// <summary>
         /// Выбранная категория заметки
         /// </summary>
@@ -68,6 +71,7 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private RelayCommand _exitCommand;
 
+        // TODO: этот сервис хранить на постоянку смысла нет
         /// <summary>
         ///Сервис вывода сообщения
         /// </summary>
@@ -86,6 +90,7 @@ namespace NoteAppWPF.ViewModels
             }
         }
 
+        // TODO: если в проекте уже есть CurrentNote, то зачем повторяться здесь?
         /// <summary>
         /// Возвращает и задает выбранную заметку
         /// </summary>
@@ -123,6 +128,8 @@ namespace NoteAppWPF.ViewModels
             }
         }
 
+        // TODO: просто Categories, из контекста и так понятно какие категории
+        // TODO: object ненадежно
         /// <summary>
         /// Возвращает список категорий заметок
         /// </summary>
@@ -138,6 +145,9 @@ namespace NoteAppWPF.ViewModels
                 return _addNoteCommand ??
                        (_addNoteCommand = new RelayCommand(obj =>
                        {
+                           // TODO: неправильное взаимодействие. Главное окно должно вызывать IWindowService,
+                           // передавая в него NoteVM. Мотивация - вызов конструктора VM не очевидно,
+                           // что внутри него будет показываться форма.
                            var note = new Note();
                            _noteViewModel = new NoteViewModel(ref note);
                            if (note == null)
@@ -250,6 +260,9 @@ namespace NoteAppWPF.ViewModels
             }
         }
 
+        // TODO: программа иногда падает, если добавить заметки разных категорий,
+        // затем выбрать на отображение какую-то категорию, а затем начать удалять заметки (с выделением и без)
+        // То есть иногда в качестве note приходит null. Протестировать и исправить багу
         /// <summary>
         /// Метод для заполнения списка заметок после и выбора текущей заметки
         /// после добавления, редактирования или удаления заметки
@@ -261,6 +274,8 @@ namespace NoteAppWPF.ViewModels
                 CurrentDisplayedNotes = _project.LastChangeTimeSortWithCategory(
                     (NoteCategory)SelectedCategory);
 
+                // TODO: перечисления можно сравнивать без Equals
+                // TODO: linq?
                 if (note.Category.Equals((NoteCategory)SelectedCategory))
                 {
                     SelectedNote = note;
@@ -276,6 +291,7 @@ namespace NoteAppWPF.ViewModels
             SelectedNote = CurrentDisplayedNotes.Count > 0 ? CurrentDisplayedNotes[0] : null;
         }
 
+        // TODO: xml
         public MainViewModel()
         {
             _messageBoxService = new MessageBoxService();

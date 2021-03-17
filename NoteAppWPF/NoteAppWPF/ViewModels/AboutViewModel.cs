@@ -13,6 +13,7 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private readonly WindowService _noteWindowService;
 
+        // TODO: xml
         public AboutViewModel()
         {
             _noteWindowService = new WindowService();

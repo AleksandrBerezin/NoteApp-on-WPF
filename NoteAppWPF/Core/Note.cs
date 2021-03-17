@@ -109,8 +109,10 @@ namespace Core
             }
         }
 
+        //TODO: в базовый класс
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
+        // TODO: что это за свойство? Почему оно ВСЕГДА кидает исключения?
         [JsonIgnore]
         /// <inheritdoc/>
         public string Error => throw new NotImplementedException();
@@ -158,6 +160,7 @@ namespace Core
             LastChangeTime = lastChangeTime;
         }
 
+        //TODO: в базовый класс
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

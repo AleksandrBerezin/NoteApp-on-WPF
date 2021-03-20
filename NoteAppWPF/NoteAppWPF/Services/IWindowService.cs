@@ -3,9 +3,9 @@
 namespace NoteAppWPF.Services
 {
     /// <summary>
-    /// Интерфейс <see cref="INoteWindowService"/> для работы с окнами приложения
+    /// Интерфейс <see cref="IWindowService"/> для работы с окнами приложения
     /// </summary>
-    public interface INoteWindowService
+    public interface IWindowService
     {
         /// <summary>
         /// Открытие окна

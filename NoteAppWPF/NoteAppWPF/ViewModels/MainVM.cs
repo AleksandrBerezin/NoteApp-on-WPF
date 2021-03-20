@@ -79,6 +79,12 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private MessageBoxService _messageBoxService;
 
+        // TODO
+        private NoteWindowService _noteWindowService;
+
+        // TODO
+        private AboutWindowService _aboutWindowService;
+
         /// <summary>
         /// Возвращает и задает список заметок, сортированный по дате изменения
         /// </summary>
@@ -152,6 +158,9 @@ namespace NoteAppWPF.ViewModels
                            // что внутри него будет показываться форма.
                            var note = new Note();
                            _noteViewModel = new NoteVM(ref note);
+                           _noteWindowService = new NoteWindowService();
+                           _noteWindowService.OpenWindow(_noteViewModel);
+
                            if (note == null)
                            {
                                return;
@@ -184,6 +193,9 @@ namespace NoteAppWPF.ViewModels
                            var realIndexInProject = _project.Notes.IndexOf(note);
 
                            _noteViewModel = new NoteVM(ref note);
+                           _noteWindowService = new NoteWindowService();
+                           _noteWindowService.OpenWindow(_noteViewModel);
+
                            if (note == null)
                            {
                                return;
@@ -242,6 +254,8 @@ namespace NoteAppWPF.ViewModels
                        (_openAboutWindowCommand = new RelayCommand<object>(obj =>
                        {
                            _aboutVm = new AboutVM();
+                           _aboutWindowService = new AboutWindowService();
+                           _aboutWindowService.OpenWindow(_aboutVm);
                        }));
             }
         }
@@ -278,7 +292,7 @@ namespace NoteAppWPF.ViewModels
 
                 // TODO: перечисления можно сравнивать без Equals
                 // TODO: linq?
-                if (note.Category.Equals((NoteCategory)SelectedCategory))
+                if (note.Category == (NoteCategory)SelectedCategory)
                 {
                     SelectedNote = note;
                     return;
@@ -293,10 +307,14 @@ namespace NoteAppWPF.ViewModels
             SelectedNote = CurrentDisplayedNotes.Count > 0 ? CurrentDisplayedNotes[0] : null;
         }
 
-        // TODO: xml
+        /// <summary>
+        /// Создает экземпляр класса <see cref="MainVM"/>
+        /// </summary>
         public MainVM()
         {
             _messageBoxService = new MessageBoxService();
+            _noteWindowService = new NoteWindowService();
+            
             _project = ProjectManager.LoadFromFile(ProjectManager.DefaultPath);
 
             NoteCategories = new List<object>();

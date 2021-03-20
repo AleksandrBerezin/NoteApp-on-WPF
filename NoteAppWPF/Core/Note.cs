@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 
 namespace Core
@@ -7,7 +8,7 @@ namespace Core
     /// <summary>
     /// Класс <see cref="Note"/>, хранящий информацию о заметке
     /// </summary>
-    public class Note : INotifyPropertyChanged, ICloneable, IDataErrorInfo
+    public class Note : ObservableObject, ICloneable, IDataErrorInfo
     {
         /// <summary>
         /// Название заметки. Название не должно превышать 50 символов.
@@ -82,7 +83,7 @@ namespace Core
             set
             {
                 _lastChangeTime = value;
-                OnPropertyChanged(nameof(LastChangeTime));
+                RaisePropertyChanged(nameof(LastChangeTime));
             }
         }
 
@@ -108,9 +109,6 @@ namespace Core
                 return error;
             }
         }
-
-        //TODO: в базовый класс
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         // TODO: что это за свойство? Почему оно ВСЕГДА кидает исключения?
         [JsonIgnore]
@@ -158,12 +156,6 @@ namespace Core
             Text = text;
             CreationTime = creationTime;
             LastChangeTime = lastChangeTime;
-        }
-
-        //TODO: в базовый класс
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

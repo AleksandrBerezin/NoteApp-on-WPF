@@ -9,16 +9,9 @@ namespace NoteAppWPF.ViewModels
     /// </summary>
     public class AboutVM : ViewModelBase
     {
-        // <summary>
-        /// Сервис открытия окна
-        /// </summary>
-        private readonly WindowService _noteWindowService;
-
         // TODO: xml
         public AboutVM()
         {
-            _noteWindowService = new WindowService();
-            _noteWindowService.OpenWindow(this);
         }
     }
 }

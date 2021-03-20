@@ -70,10 +70,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Services\AboutWindowService.cs" />
     <Compile Include="Services\IMessageBoxService.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Services\MessageBoxService.cs" />
-    <Compile Include="Services\WindowService.cs" />
+    <Compile Include="Services\NoteWindowService.cs" />
     <Compile Include="ViewModels\AboutVM.cs" />
     <Compile Include="ViewModels\MainVM.cs" />
     <Compile Include="ViewModels\NoteVM.cs" />

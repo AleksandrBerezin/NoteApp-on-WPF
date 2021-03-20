@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Core;
-// TODO: если подключил библиотеку, тогда используй её во всех VM и реализациях INPC
+// TODO: если подключил библиотеку, тогда используй её во всех VM и реализациях INPC (DONE)
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NoteAppWPF.Services;
@@ -11,17 +11,12 @@ using NoteAppWPF.Views;
 
 namespace NoteAppWPF.ViewModels
 {
-    // TODO: В именах классов использовать сокращение VM (в названиях папок оставлять без сокращения)
+    // TODO: В именах классов использовать сокращение VM (в названиях папок оставлять без сокращения) (DONE)
     /// <summary>
     /// Модель-представление окна <see cref="NoteWindow"/>
     /// </summary>
     public class NoteVM : ViewModelBase
     {
-        /// <summary>
-        /// Результат работы окна
-        /// </summary>
-        private bool _dialogResult = false;
-
         /// <summary>
         /// Текущая заметка
         /// </summary>
@@ -41,11 +36,6 @@ namespace NoteAppWPF.ViewModels
         ///Сервис вывода сообщения
         /// </summary>
         private MessageBoxService _messageBoxService;
-
-        /// <summary>
-        /// Сервис открытия окна
-        /// </summary>
-        private WindowService _noteWindowService;
 
         /// <summary>
         /// Возвращает и задает текущую заметку
@@ -83,7 +73,6 @@ namespace NoteAppWPF.ViewModels
                            }
                            else
                            {
-                               _dialogResult = true;
                                CloseAction?.Invoke();
                            }
                        }));
@@ -111,23 +100,15 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         public List<string> NoteCategories { get; private set; }
 
-        // TODO: xml
+        /// <summary>
+        /// Создает экземпляр класса <see cref="NoteVM"/>
+        /// </summary>
+        /// <param name="note"></param>
         public NoteVM(ref Note note)
         {
             _messageBoxService = new MessageBoxService();
             CurrentNote = note;
             NoteCategories = Enum.GetNames(typeof(NoteCategory)).ToList();
-
-            // TODO: WindowService должен хранить ссылку на VM, а не VM хранить сервис
-            // т.е. сервис хранится в том окне, откуда он вызывается, а вызываться он должен из главного окна
-            // иначе не очевидно, что при вызове конструктора будет загораться окно, да и связка жесткая
-            _noteWindowService = new WindowService();
-            _noteWindowService.OpenWindow(this);
-
-            if (!_dialogResult)
-            {
-                note = null;
-            }
         }
     }
 }

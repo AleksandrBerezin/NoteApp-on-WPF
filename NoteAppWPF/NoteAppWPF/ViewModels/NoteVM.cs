@@ -5,7 +5,9 @@ using System.Windows;
 using Core;
 // TODO: если подключил библиотеку, тогда используй её во всех VM и реализациях INPC
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using NoteAppWPF.Services;
+using NoteAppWPF.Views;
 
 namespace NoteAppWPF.ViewModels
 {
@@ -13,7 +15,7 @@ namespace NoteAppWPF.ViewModels
     /// <summary>
     /// Модель-представление окна <see cref="NoteWindow"/>
     /// </summary>
-    public class NoteViewModel : ViewModelBase
+    public class NoteVM : ViewModelBase
     {
         /// <summary>
         /// Результат работы окна
@@ -28,12 +30,12 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Команда закрытия окна с сохраненем данных
         /// </summary>
-        private RelayCommand _okCommand;
+        private RelayCommand<object> _okCommand;
 
         /// <summary>
         /// Команда закрытия окна без сохранения данных
         /// </summary>
-        private RelayCommand _cancelCommand;
+        private RelayCommand<object> _cancelCommand;
 
         /// <summary>
         ///Сервис вывода сообщения
@@ -66,12 +68,12 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Возвращает команду закрытия окна с сохраненем данных
         /// </summary>
-        public RelayCommand OkCommand
+        public RelayCommand<object> OkCommand
         {
             get
             {
                 return _okCommand ??
-                       (_okCommand = new RelayCommand(obj =>
+                       (_okCommand = new RelayCommand<object>(obj =>
                        {
                            var isError = (bool) obj;
                            if (isError)
@@ -91,12 +93,12 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Возвращает команду закрытия окна без сохранения данных
         /// </summary>
-        public RelayCommand CancelCommand
+        public RelayCommand<object> CancelCommand
         {
             get
             {
                 return _cancelCommand ??
-                       (_cancelCommand = new RelayCommand(obj =>
+                       (_cancelCommand = new RelayCommand<object>(obj =>
                        {
                            CloseAction?.Invoke();
                        }));
@@ -110,7 +112,7 @@ namespace NoteAppWPF.ViewModels
         public List<string> NoteCategories { get; private set; }
 
         // TODO: xml
-        public NoteViewModel(ref Note note)
+        public NoteVM(ref Note note)
         {
             _messageBoxService = new MessageBoxService();
             CurrentNote = note;

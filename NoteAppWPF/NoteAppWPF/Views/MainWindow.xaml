@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="NoteAppWPF.MainWindow"
+    x:Class="NoteAppWPF.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,15 +9,15 @@
     Title="NoteApp"
     Width="833"
     Height="500"
-    Icon="Resources/NoteIcon.ico"
+    Icon="../Resources/NoteIcon.ico"
     mc:Ignorable="d">
     <Window.Resources>
         <Image
             x:Key="AddImage"
-            Source="Resources/AddImage.png"
+            Source="../Resources/AddImage.png"
             Stretch="Uniform" />
-        <Image x:Key="EditImage" Source="Resources/EditImage.png" />
-        <Image x:Key="RemoveImage" Source="Resources/RemoveImage.png" />
+        <Image x:Key="EditImage" Source="../Resources/EditImage.png" />
+        <Image x:Key="RemoveImage" Source="../Resources/RemoveImage.png" />
         <Color
             x:Key="DefaultColor"
             A="255"

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace NoteAppWPF
+namespace NoteAppWPF.Views
 {
     /// <summary>
     /// Interaction logic for NoteWindow.xaml

@@ -4,26 +4,28 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using Core;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using NoteAppWPF.Services;
+using NoteAppWPF.Views;
 
 namespace NoteAppWPF.ViewModels
 {
     /// <summary>
     /// Модель-представление окна <see cref="MainWindow"/>
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class MainVM : ViewModelBase
     {
         // TODO: зачем хранить как поле, если она используется только в команде?
         /// <summary>
         /// Модель-представление окна редактирования заметки
         /// </summary>
-        private NoteViewModel _noteViewModel;
+        private NoteVM _noteViewModel;
 
         // TODO: зачем хранить как поле
         /// <summary>
         /// Модель-представление справочного окна
         /// </summary>
-        private AboutViewModel _aboutViewModel;
+        private AboutVM _aboutVm;
 
         /// <summary>
         /// Проект
@@ -49,27 +51,27 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Команда добавления новой заметки
         /// </summary>
-        private RelayCommand _addNoteCommand;
+        private RelayCommand<object> _addNoteCommand;
 
         /// <summary>
         /// Команда редактировани заметки
         /// </summary>
-        private RelayCommand _editNoteCommand;
+        private RelayCommand<object> _editNoteCommand;
 
         /// <summary>
         /// Команда удаления заметки
         /// </summary>
-        private RelayCommand _removeNoteCommand;
+        private RelayCommand<object> _removeNoteCommand;
 
         /// <summary>
         /// Команда открытия справочного окна
         /// </summary>
-        private RelayCommand _openAboutWindowCommand;
+        private RelayCommand<object> _openAboutWindowCommand;
 
         /// <summary>
         /// Команда закрытия приложения
         /// </summary>
-        private RelayCommand _exitCommand;
+        private RelayCommand<object> _exitCommand;
 
         // TODO: этот сервис хранить на постоянку смысла нет
         /// <summary>
@@ -138,18 +140,18 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Возвращает команду добавления новой заметки
         /// </summary>
-        public RelayCommand AddNoteCommand
+        public RelayCommand<object> AddNoteCommand
         {
             get
             {
                 return _addNoteCommand ??
-                       (_addNoteCommand = new RelayCommand(obj =>
+                       (_addNoteCommand = new RelayCommand<object>(obj =>
                        {
                            // TODO: неправильное взаимодействие. Главное окно должно вызывать IWindowService,
                            // передавая в него NoteVM. Мотивация - вызов конструктора VM не очевидно,
                            // что внутри него будет показываться форма.
                            var note = new Note();
-                           _noteViewModel = new NoteViewModel(ref note);
+                           _noteViewModel = new NoteVM(ref note);
                            if (note == null)
                            {
                                return;
@@ -166,12 +168,12 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Возвращает команду редактирования заметки
         /// </summary>
-        public RelayCommand EditNoteCommand
+        public RelayCommand<object> EditNoteCommand
         {
             get
             {
                 return _editNoteCommand ??
-                       (_editNoteCommand = new RelayCommand(obj =>
+                       (_editNoteCommand = new RelayCommand<object>(obj =>
                        {
                            if (SelectedNote == null)
                            {
@@ -181,7 +183,7 @@ namespace NoteAppWPF.ViewModels
                            var note = (Note) SelectedNote.Clone();
                            var realIndexInProject = _project.Notes.IndexOf(note);
 
-                           _noteViewModel = new NoteViewModel(ref note);
+                           _noteViewModel = new NoteVM(ref note);
                            if (note == null)
                            {
                                return;
@@ -199,12 +201,12 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Возвращает команду удаления заметки
         /// </summary>
-        public RelayCommand RemoveNoteCommand
+        public RelayCommand<object> RemoveNoteCommand
         {
             get
             {
                 return _removeNoteCommand ??
-                       (_removeNoteCommand = new RelayCommand(obj =>
+                       (_removeNoteCommand = new RelayCommand<object>(obj =>
                        {
                            if (SelectedNote == null)
                            {
@@ -232,14 +234,14 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Возвращает команду открытия справочного окна
         /// </summary>
-        public RelayCommand OpenAboutWindowCommand
+        public RelayCommand<object> OpenAboutWindowCommand
         {
             get
             {
                 return _openAboutWindowCommand ??
-                       (_openAboutWindowCommand = new RelayCommand(obj =>
+                       (_openAboutWindowCommand = new RelayCommand<object>(obj =>
                        {
-                           _aboutViewModel = new AboutViewModel();
+                           _aboutVm = new AboutVM();
                        }));
             }
         }
@@ -247,12 +249,12 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Возвращает команду закрытия приложения
         /// </summary>
-        public RelayCommand ExitCommand
+        public RelayCommand<object> ExitCommand
         {
             get
             {
                 return _exitCommand ??
-                       (_exitCommand = new RelayCommand(obj =>
+                       (_exitCommand = new RelayCommand<object>(obj =>
                        {
                            ProjectManager.SaveToFile(_project, ProjectManager.DefaultPath);
                            ((MainWindow)obj).Close();
@@ -292,7 +294,7 @@ namespace NoteAppWPF.ViewModels
         }
 
         // TODO: xml
-        public MainViewModel()
+        public MainVM()
         {
             _messageBoxService = new MessageBoxService();
             _project = ProjectManager.LoadFromFile(ProjectManager.DefaultPath);

@@ -2,6 +2,7 @@
 using System.Windows;
 using GalaSoft.MvvmLight;
 using NoteAppWPF.ViewModels;
+using NoteAppWPF.Views;
 
 namespace NoteAppWPF.Services
 {
@@ -16,7 +17,7 @@ namespace NoteAppWPF.Services
         {
             Window window;
 
-            if (viewModel is NoteViewModel noteViewModel)
+            if (viewModel is NoteVM noteViewModel)
             {
                 window = new NoteWindow();
                 if (noteViewModel.CloseAction == null)
@@ -24,7 +25,7 @@ namespace NoteAppWPF.Services
                     noteViewModel.CloseAction = new Action(window.Close);
                 }
             }
-            else if (viewModel is AboutViewModel aboutViewModel)
+            else if (viewModel is AboutVM aboutViewModel)
             {
                 window = new AboutWindow();
             }

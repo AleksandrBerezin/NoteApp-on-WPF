@@ -13,7 +13,7 @@ namespace Core
         /// <summary>
         /// Возвращает и задает список всех заметок
         /// </summary>
-        public ObservableCollection<Note> Notes { get; set; }
+        public ObservableCollection<Note> Notes { get; set; } = new ObservableCollection<Note>();
 
         /// <summary>
         /// Возвращает и задает текущую заметку
@@ -25,8 +25,7 @@ namespace Core
         /// </summary>
         public Project()
         {
-            // TODO: сразу инициализовать свойство, а не в конструкторе
-            Notes = new ObservableCollection<Note>();
+            // TODO: сразу инициализовать свойство, а не в конструкторе (DONE)
         }
 
         /// <summary>

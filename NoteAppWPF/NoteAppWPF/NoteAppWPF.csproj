@@ -70,34 +70,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="RelayCommand.cs" />
     <Compile Include="Services\IMessageBoxService.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Services\MessageBoxService.cs" />
     <Compile Include="Services\WindowService.cs" />
-    <Compile Include="ViewModels\AboutViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\NoteViewModel.cs" />
-    <Page Include="AboutWindow.xaml">
+    <Compile Include="ViewModels\AboutVM.cs" />
+    <Compile Include="ViewModels\MainVM.cs" />
+    <Compile Include="ViewModels\NoteVM.cs" />
+    <Page Include="Views\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AboutWindow.xaml.cs">
+    <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NoteWindow.xaml">
+    <Page Include="Views\NoteWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -107,7 +106,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NoteWindow.xaml.cs">
+    <Compile Include="Views\NoteWindow.xaml.cs">
       <DependentUpon>NoteWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">

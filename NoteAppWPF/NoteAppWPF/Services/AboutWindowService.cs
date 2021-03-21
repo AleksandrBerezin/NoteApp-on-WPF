@@ -9,13 +9,15 @@ namespace NoteAppWPF.Services
     public class AboutWindowService : IWindowService
     {
         /// <inheritdoc/>
-        public void OpenWindow(ViewModelBase viewModel)
+        public bool? OpenWindow(ViewModelBase viewModel)
         {
             var window = new AboutWindow
             {
                 DataContext = viewModel
             };
             window.ShowDialog();
+
+            return true;
         }
     }
 }

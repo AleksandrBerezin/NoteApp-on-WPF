@@ -11,19 +11,26 @@ namespace NoteAppWPF.Services
     /// </summary>
     public class NoteWindowService : IWindowService
     {
+        /// <summary>
+        /// Окно редактирования заметки
+        /// </summary>
+        private NoteWindow _window;
+
         /// <inheritdoc/>
-        public void OpenWindow(ViewModelBase viewModel)
+        public bool? OpenWindow(ViewModelBase viewModel)
         {
-            var window = new NoteWindow();
+            _window = new NoteWindow();
             var vm = (NoteVM) viewModel;
 
             if (vm.CloseAction == null)
             {
-                vm.CloseAction = new Action(window.Close);
+                vm.CloseAction = new Action(_window.Close);
             }
 
-            window.DataContext = viewModel;
-            window.ShowDialog();
+            _window.DataContext = viewModel;
+            _window.ShowDialog();
+
+            return vm.DialogResult;
         }
     }
 }

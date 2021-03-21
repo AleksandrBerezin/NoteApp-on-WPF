@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using Core;
 using GalaSoft.MvvmLight;
@@ -15,18 +16,6 @@ namespace NoteAppWPF.ViewModels
     /// </summary>
     public class MainVM : ViewModelBase
     {
-        // TODO: зачем хранить как поле, если она используется только в команде?
-        /// <summary>
-        /// Модель-представление окна редактирования заметки
-        /// </summary>
-        private NoteVM _noteViewModel;
-
-        // TODO: зачем хранить как поле
-        /// <summary>
-        /// Модель-представление справочного окна
-        /// </summary>
-        private AboutVM _aboutVm;
-
         /// <summary>
         /// Проект
         /// </summary>
@@ -42,11 +31,11 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private Note _selectedNote;
 
-        // TODO: Почему object? Хотя бы string, если надо совместить enum и string
+        // TODO: Почему object? Хотя бы string, если надо совместить enum и string (DONE)
         /// <summary>
         /// Выбранная категория заметки
         /// </summary>
-        private object _selectedCategory;
+        private string _selectedCategory;
 
         /// <summary>
         /// Команда добавления новой заметки
@@ -73,18 +62,6 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private RelayCommand<object> _exitCommand;
 
-        // TODO: этот сервис хранить на постоянку смысла нет
-        /// <summary>
-        ///Сервис вывода сообщения
-        /// </summary>
-        private MessageBoxService _messageBoxService;
-
-        // TODO
-        private NoteWindowService _noteWindowService;
-
-        // TODO
-        private AboutWindowService _aboutWindowService;
-
         /// <summary>
         /// Возвращает и задает список заметок, сортированный по дате изменения
         /// </summary>
@@ -99,6 +76,7 @@ namespace NoteAppWPF.ViewModels
         }
 
         // TODO: если в проекте уже есть CurrentNote, то зачем повторяться здесь?
+        // TODO: (_project закрытый, как тогда к CurrentNote биндиться?)
         /// <summary>
         /// Возвращает и задает выбранную заметку
         /// </summary>
@@ -116,7 +94,7 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Возвращает и задает выбранную категорию заметки
         /// </summary>
-        public object SelectedCategory
+        public string SelectedCategory
         {
             get => _selectedCategory;
             set
@@ -128,20 +106,20 @@ namespace NoteAppWPF.ViewModels
                 }
                 else
                 {
-                    CurrentDisplayedNotes = _project.LastChangeTimeSortWithCategory(
-                        (NoteCategory) _selectedCategory);
+                    Enum.TryParse(_selectedCategory, out NoteCategory category);
+                    CurrentDisplayedNotes = _project.LastChangeTimeSortWithCategory(category);
                 }
 
                 RaisePropertyChanged(nameof(SelectedCategory));
             }
         }
 
-        // TODO: просто Categories, из контекста и так понятно какие категории
-        // TODO: object ненадежно
+        // TODO: просто Categories, из контекста и так понятно какие категории (Done)
+        // TODO: object ненадежно (Done)
         /// <summary>
         /// Возвращает список категорий заметок
         /// </summary>
-        public List<object> NoteCategories { get; private set; }
+        public List<string> Categories { get; private set; }
 
         /// <summary>
         /// Возвращает команду добавления новой заметки
@@ -153,15 +131,15 @@ namespace NoteAppWPF.ViewModels
                 return _addNoteCommand ??
                        (_addNoteCommand = new RelayCommand<object>(obj =>
                        {
-                           // TODO: неправильное взаимодействие. Главное окно должно вызывать IWindowService,
+                           // TODO: неправильное взаимодействие. Главное окно должно вызывать IWindowService, (DONE)
                            // передавая в него NoteVM. Мотивация - вызов конструктора VM не очевидно,
                            // что внутри него будет показываться форма.
                            var note = new Note();
-                           _noteViewModel = new NoteVM(ref note);
-                           _noteWindowService = new NoteWindowService();
-                           _noteWindowService.OpenWindow(_noteViewModel);
+                           var viewModel = new NoteVM(note);
+                           var windowService = new NoteWindowService();
+                           var result = windowService.OpenWindow(viewModel);
 
-                           if (note == null)
+                           if (result != true)
                            {
                                return;
                            }
@@ -192,11 +170,11 @@ namespace NoteAppWPF.ViewModels
                            var note = (Note) SelectedNote.Clone();
                            var realIndexInProject = _project.Notes.IndexOf(note);
 
-                           _noteViewModel = new NoteVM(ref note);
-                           _noteWindowService = new NoteWindowService();
-                           _noteWindowService.OpenWindow(_noteViewModel);
+                           var viewModel = new NoteVM(note);
+                           var windowService = new NoteWindowService();
+                           var result = windowService.OpenWindow(viewModel);
 
-                           if (note == null)
+                           if (result != true)
                            {
                                return;
                            }
@@ -225,7 +203,8 @@ namespace NoteAppWPF.ViewModels
                                return;
                            }
 
-                           var result = _messageBoxService.ShowMessage(
+                           var messageBoxService = new MessageBoxService();
+                           var result = messageBoxService.ShowMessage(
                                $"Do you really want to remove this note: {SelectedNote}",
                                "Remove Note",
                                MessageBoxButton.OKCancel,
@@ -253,9 +232,9 @@ namespace NoteAppWPF.ViewModels
                 return _openAboutWindowCommand ??
                        (_openAboutWindowCommand = new RelayCommand<object>(obj =>
                        {
-                           _aboutVm = new AboutVM();
-                           _aboutWindowService = new AboutWindowService();
-                           _aboutWindowService.OpenWindow(_aboutVm);
+                           var viewModel = new AboutVM();
+                           var windowService = new AboutWindowService();
+                           windowService.OpenWindow(viewModel);
                        }));
             }
         }
@@ -276,7 +255,7 @@ namespace NoteAppWPF.ViewModels
             }
         }
 
-        // TODO: программа иногда падает, если добавить заметки разных категорий,
+        // TODO: программа иногда падает, если добавить заметки разных категорий, (DONE)
         // затем выбрать на отображение какую-то категорию, а затем начать удалять заметки (с выделением и без)
         // То есть иногда в качестве note приходит null. Протестировать и исправить багу
         /// <summary>
@@ -287,12 +266,12 @@ namespace NoteAppWPF.ViewModels
         {
             if (SelectedCategory != null && SelectedCategory != "All")
             {
-                CurrentDisplayedNotes = _project.LastChangeTimeSortWithCategory(
-                    (NoteCategory)SelectedCategory);
+                Enum.TryParse(_selectedCategory, out NoteCategory category);
+                CurrentDisplayedNotes = _project.LastChangeTimeSortWithCategory(category);
 
-                // TODO: перечисления можно сравнивать без Equals
-                // TODO: linq?
-                if (note.Category == (NoteCategory)SelectedCategory)
+                // TODO: перечисления можно сравнивать без Equals (DONE)
+                // TODO: linq? (Тут ведь нет коллекции, не из чего выбирать)
+                if (note?.Category == category)
                 {
                     SelectedNote = note;
                     return;
@@ -312,17 +291,10 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         public MainVM()
         {
-            _messageBoxService = new MessageBoxService();
-            _noteWindowService = new NoteWindowService();
-            
             _project = ProjectManager.LoadFromFile(ProjectManager.DefaultPath);
 
-            NoteCategories = new List<object>();
-            foreach (var category in Enum.GetValues(typeof(NoteCategory)))
-            {
-                NoteCategories.Add(category);
-            }
-            NoteCategories.Add("All");
+            Categories = Enum.GetNames(typeof(NoteCategory)).ToList();
+            Categories.Add("All");
 
             CurrentDisplayedNotes = _project.LastChangeTimeSort();
             _project.Notes = CurrentDisplayedNotes;

@@ -109,7 +109,7 @@
                     <TextBlock Margin="6,3,3,3" Text="Show Category:" />
                     <ComboBox
                         Margin="3"
-                        ItemsSource="{Binding NoteCategories}"
+                        ItemsSource="{Binding Categories}"
                         SelectedItem="{Binding SelectedCategory}" />
                 </DockPanel>
                 <ListBox

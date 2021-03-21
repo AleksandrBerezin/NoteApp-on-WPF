@@ -113,7 +113,7 @@ namespace Core
         // TODO: что это за свойство? Почему оно ВСЕГДА кидает исключения?
         [JsonIgnore]
         /// <inheritdoc/>
-        public string Error => throw new NotImplementedException();
+        public string Error => string.Empty;
 
         /// <summary>
         /// Создает экземпляр <see cref="Note"/>

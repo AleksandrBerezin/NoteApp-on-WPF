@@ -8,9 +8,10 @@ namespace NoteAppWPF.Services
     public interface IWindowService
     {
         /// <summary>
-        /// Открытие окна
+        ///  Открытие окна
         /// </summary>
         /// <param name="viewModel"></param>
-        void OpenWindow(ViewModelBase viewModel);
+        /// <returns></returns>
+        bool? OpenWindow(ViewModelBase viewModel);
     }
 }

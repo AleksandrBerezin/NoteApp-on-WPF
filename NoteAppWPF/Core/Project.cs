@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
+using GalaSoft.MvvmLight;
 
 namespace Core
 {
-    // TODO: если агругируемые классы реализуются INPC, то и этот класс должен реализовывать
+    // TODO: если агругируемые классы реализуются INPC, то и этот класс должен реализовывать (DONE)
     /// <summary>
     /// Класс <see cref="Project"/>, хранящий список заметок
     /// </summary>
-    public class Project
+    public class Project : ObservableObject
     {
         /// <summary>
         /// Возвращает и задает список всех заметок

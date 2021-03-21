@@ -82,7 +82,7 @@
                 Width="140"
                 Margin="3,4,0,4"
                 HorizontalAlignment="Left"
-                ItemsSource="{Binding NoteCategories}"
+                ItemsSource="{Binding Categories}"
                 Style="{StaticResource ControlsStyle}"
                 Text="{Binding CurrentNote.Category}" />
             <TextBlock

@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using NoteAppWPF.Services;
 using NoteAppWPF.Views;
 
 namespace NoteAppWPF.ViewModels
@@ -9,7 +8,9 @@ namespace NoteAppWPF.ViewModels
     /// </summary>
     public class AboutVM : ViewModelBase
     {
-        // TODO: xml
+        /// <summary>
+        /// Создает экземпляр <see cref="AboutVM"/>
+        /// </summary>
         public AboutVM()
         {
         }

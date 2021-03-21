@@ -33,11 +33,6 @@ namespace NoteAppWPF.ViewModels
         private RelayCommand<object> _cancelCommand;
 
         /// <summary>
-        ///Сервис вывода сообщения
-        /// </summary>
-        private MessageBoxService _messageBoxService;
-
-        /// <summary>
         /// Возвращает и задает текущую заметку
         /// </summary>
         public Note CurrentNote
@@ -49,6 +44,11 @@ namespace NoteAppWPF.ViewModels
                 RaisePropertyChanged(nameof(CurrentNote));
             }
         }
+
+        /// <summary>
+        /// Разультат работы окна редактирования заметки
+        /// </summary>
+        public bool? DialogResult { get; private set; }
 
         /// <summary>
         /// Возвращает и задает действие при закрытии окна
@@ -68,11 +68,13 @@ namespace NoteAppWPF.ViewModels
                            var isError = (bool) obj;
                            if (isError)
                            {
-                               _messageBoxService.ShowMessage("Invalid values entered", "Error",
+                               var messageBoxService = new MessageBoxService();
+                               messageBoxService.ShowMessage("Invalid values entered", "Error",
                                    MessageBoxButton.OK, MessageBoxImage.Error);
                            }
                            else
                            {
+                               DialogResult = true;
                                CloseAction?.Invoke();
                            }
                        }));
@@ -89,26 +91,26 @@ namespace NoteAppWPF.ViewModels
                 return _cancelCommand ??
                        (_cancelCommand = new RelayCommand<object>(obj =>
                        {
+                           DialogResult = false;
                            CloseAction?.Invoke();
                        }));
             }
         }
 
-        // TODO: сделать лист NoteCategory, а биндинг через конвертер 
+        // TODO: сделать лист NoteCategory, а биндинг через конвертер (Сделал без конвертера)
         /// <summary>
         /// Возвращает список категорий заметок
         /// </summary>
-        public List<string> NoteCategories { get; private set; }
+        public List<NoteCategory> Categories { get; private set; }
 
         /// <summary>
         /// Создает экземпляр класса <see cref="NoteVM"/>
         /// </summary>
         /// <param name="note"></param>
-        public NoteVM(ref Note note)
+        public NoteVM(Note note)
         {
-            _messageBoxService = new MessageBoxService();
             CurrentNote = note;
-            NoteCategories = Enum.GetNames(typeof(NoteCategory)).ToList();
+            Categories = Enum.GetValues(typeof(NoteCategory)).Cast<NoteCategory>().ToList();
         }
     }
 }

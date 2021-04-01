@@ -110,7 +110,6 @@ namespace Core
             }
         }
 
-        // TODO: что это за свойство? Почему оно ВСЕГДА кидает исключения?
         [JsonIgnore]
         /// <inheritdoc/>
         public string Error => string.Empty;

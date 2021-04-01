@@ -4,7 +4,6 @@ using GalaSoft.MvvmLight;
 
 namespace Core
 {
-    // TODO: если агругируемые классы реализуются INPC, то и этот класс должен реализовывать (DONE)
     /// <summary>
     /// Класс <see cref="Project"/>, хранящий список заметок
     /// </summary>
@@ -25,7 +24,7 @@ namespace Core
         /// </summary>
         public Project()
         {
-            // TODO: сразу инициализовать свойство, а не в конструкторе (DONE)
+            // TODO: зачем пустой конструктор?
         }
 
         /// <summary>

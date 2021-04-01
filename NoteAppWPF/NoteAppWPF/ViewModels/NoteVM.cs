@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Core;
-// TODO: если подключил библиотеку, тогда используй её во всех VM и реализациях INPC (DONE)
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NoteAppWPF.Services;
@@ -11,7 +10,6 @@ using NoteAppWPF.Views;
 
 namespace NoteAppWPF.ViewModels
 {
-    // TODO: В именах классов использовать сокращение VM (в названиях папок оставлять без сокращения) (DONE)
     /// <summary>
     /// Модель-представление окна <see cref="NoteWindow"/>
     /// </summary>
@@ -22,6 +20,7 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private Note _currentNote;
 
+        // TODO: грамошибки в комментах
         /// <summary>
         /// Команда закрытия окна с сохраненем данных
         /// </summary>
@@ -44,7 +43,7 @@ namespace NoteAppWPF.ViewModels
                 RaisePropertyChanged(nameof(CurrentNote));
             }
         }
-
+        // TODO: грамошибки в комментах
         /// <summary>
         /// Разультат работы окна редактирования заметки
         /// </summary>
@@ -54,7 +53,7 @@ namespace NoteAppWPF.ViewModels
         /// Возвращает и задает действие при закрытии окна
         /// </summary>
         public Action CloseAction { get; set; }
-
+        // TODO: грамошибки
         /// <summary>
         /// Возвращает команду закрытия окна с сохраненем данных
         /// </summary>
@@ -68,6 +67,7 @@ namespace NoteAppWPF.ViewModels
                            var isError = (bool) obj;
                            if (isError)
                            {
+                               // TODO: никакого создания кокнретных View на уровне VM
                                var messageBoxService = new MessageBoxService();
                                messageBoxService.ShowMessage("Invalid values entered", "Error",
                                    MessageBoxButton.OK, MessageBoxImage.Error);
@@ -97,7 +97,6 @@ namespace NoteAppWPF.ViewModels
             }
         }
 
-        // TODO: сделать лист NoteCategory, а биндинг через конвертер (Сделал без конвертера)
         /// <summary>
         /// Возвращает список категорий заметок
         /// </summary>

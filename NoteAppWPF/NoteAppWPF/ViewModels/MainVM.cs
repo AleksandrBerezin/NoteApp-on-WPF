@@ -31,7 +31,6 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private Note _selectedNote;
 
-        // TODO: Почему object? Хотя бы string, если надо совместить enum и string (DONE)
         /// <summary>
         /// Выбранная категория заметки
         /// </summary>
@@ -42,6 +41,7 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private RelayCommand<object> _addNoteCommand;
 
+        //TODO: грамошибка в комментарии
         /// <summary>
         /// Команда редактировани заметки
         /// </summary>
@@ -76,7 +76,8 @@ namespace NoteAppWPF.ViewModels
         }
 
         // TODO: если в проекте уже есть CurrentNote, то зачем повторяться здесь?
-        // TODO: (_project закрытый, как тогда к CurrentNote биндиться?)
+        // (_project закрытый, как тогда к CurrentNote биндиться?)
+        // .. Речь про поле _selectedNote, а не свойство. Просто используй поле в проекте.
         /// <summary>
         /// Возвращает и задает выбранную заметку
         /// </summary>
@@ -114,8 +115,6 @@ namespace NoteAppWPF.ViewModels
             }
         }
 
-        // TODO: просто Categories, из контекста и так понятно какие категории (Done)
-        // TODO: object ненадежно (Done)
         /// <summary>
         /// Возвращает список категорий заметок
         /// </summary>
@@ -131,11 +130,10 @@ namespace NoteAppWPF.ViewModels
                 return _addNoteCommand ??
                        (_addNoteCommand = new RelayCommand<object>(obj =>
                        {
-                           // TODO: неправильное взаимодействие. Главное окно должно вызывать IWindowService, (DONE)
-                           // передавая в него NoteVM. Мотивация - вызов конструктора VM не очевидно,
-                           // что внутри него будет показываться форма.
                            var note = new Note();
                            var viewModel = new NoteVM(note);
+                           // TODO: VM не должна создавать экземпляры конкретных сервисов!
+                           // Работа только через интерфейсы сервисов, экземпляры которых передаются в конструктор
                            var windowService = new NoteWindowService();
                            var result = windowService.OpenWindow(viewModel);
 
@@ -169,7 +167,7 @@ namespace NoteAppWPF.ViewModels
 
                            var note = (Note) SelectedNote.Clone();
                            var realIndexInProject = _project.Notes.IndexOf(note);
-
+                           // TODO: см. выше
                            var viewModel = new NoteVM(note);
                            var windowService = new NoteWindowService();
                            var result = windowService.OpenWindow(viewModel);
@@ -202,7 +200,7 @@ namespace NoteAppWPF.ViewModels
                            {
                                return;
                            }
-
+                           // TODO: см. выше
                            var messageBoxService = new MessageBoxService();
                            var result = messageBoxService.ShowMessage(
                                $"Do you really want to remove this note: {SelectedNote}",
@@ -232,6 +230,7 @@ namespace NoteAppWPF.ViewModels
                 return _openAboutWindowCommand ??
                        (_openAboutWindowCommand = new RelayCommand<object>(obj =>
                        {
+                           // TODO: см. выше
                            var viewModel = new AboutVM();
                            var windowService = new AboutWindowService();
                            windowService.OpenWindow(viewModel);
@@ -255,9 +254,6 @@ namespace NoteAppWPF.ViewModels
             }
         }
 
-        // TODO: программа иногда падает, если добавить заметки разных категорий, (DONE)
-        // затем выбрать на отображение какую-то категорию, а затем начать удалять заметки (с выделением и без)
-        // То есть иногда в качестве note приходит null. Протестировать и исправить багу
         /// <summary>
         /// Метод для заполнения списка заметок после и выбора текущей заметки
         /// после добавления, редактирования или удаления заметки
@@ -269,8 +265,6 @@ namespace NoteAppWPF.ViewModels
                 Enum.TryParse(_selectedCategory, out NoteCategory category);
                 CurrentDisplayedNotes = _project.LastChangeTimeSortWithCategory(category);
 
-                // TODO: перечисления можно сравнивать без Equals (DONE)
-                // TODO: linq? (Тут ведь нет коллекции, не из чего выбирать)
                 if (note?.Category == category)
                 {
                     SelectedNote = note;

@@ -5,7 +5,6 @@ using NoteAppWPF.Views;
 
 namespace NoteAppWPF.Services
 {
-    // TODO: для разных окон лучше делать разные сервисы (DONE)
     /// <summary>
     /// Класс <see cref="NoteWindowService"/> для работы с окном редактирования заметки
     /// </summary>
@@ -16,6 +15,7 @@ namespace NoteAppWPF.Services
         /// </summary>
         private NoteWindow _window;
 
+        //TODO: передавать базовый класс небезопасно - сервис работает с одной конкретной VM
         /// <inheritdoc/>
         public bool? OpenWindow(ViewModelBase viewModel)
         {

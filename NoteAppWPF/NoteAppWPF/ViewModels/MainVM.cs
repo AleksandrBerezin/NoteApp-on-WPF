@@ -27,11 +27,6 @@ namespace NoteAppWPF.ViewModels
         private ObservableCollection<Note> _currentDisplayedNotes;
 
         /// <summary>
-        /// Выбранная заметка
-        /// </summary>
-        private Note _selectedNote;
-
-        /// <summary>
         /// Выбранная категория заметки
         /// </summary>
         private string _selectedCategory;
@@ -75,7 +70,7 @@ namespace NoteAppWPF.ViewModels
             }
         }
 
-        // TODO: если в проекте уже есть CurrentNote, то зачем повторяться здесь?
+        // TODO: если в проекте уже есть CurrentNote, то зачем повторяться здесь? (DONE)
         // (_project закрытый, как тогда к CurrentNote биндиться?)
         // .. Речь про поле _selectedNote, а не свойство. Просто используй поле в проекте.
         /// <summary>
@@ -83,11 +78,10 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         public Note SelectedNote
         {
-            get => _selectedNote;
+            get => _project.CurrentNote;
             set
             {
-                _selectedNote = value;
-                _project.CurrentNote = _selectedNote;
+                _project.CurrentNote = value;
                 RaisePropertyChanged(nameof(SelectedNote));
             }
         }
@@ -249,7 +243,10 @@ namespace NoteAppWPF.ViewModels
                        (_exitCommand = new RelayCommand<object>(obj =>
                        {
                            ProjectManager.SaveToFile(_project, ProjectManager.DefaultPath);
-                           ((MainWindow)obj).Close();
+                           var window = (MainWindow) obj;
+
+                           // Если окно закрывается через крестик, то window = null
+                           window?.Close();
                        }));
             }
         }

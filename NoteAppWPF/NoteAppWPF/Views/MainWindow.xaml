@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:local="clr-namespace:NoteAppWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="Window"
@@ -55,6 +56,12 @@
         <KeyBinding Command="{Binding ExitCommand}" Gesture="Alt+F4" />
         <KeyBinding Command="{Binding RemoveNoteCommand}" Gesture="Del" />
     </Window.InputBindings>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ExitCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Grid Margin="3">
         <Grid.RowDefinitions>

@@ -1,5 +1,5 @@
 ﻿using System;
-using GalaSoft.MvvmLight;
+using Core;
 using NoteAppWPF.ViewModels;
 using NoteAppWPF.Views;
 
@@ -8,29 +8,24 @@ namespace NoteAppWPF.Services
     /// <summary>
     /// Класс <see cref="NoteWindowService"/> для работы с окном редактирования заметки
     /// </summary>
-    public class NoteWindowService : IWindowService
+    public class NoteWindowService : INoteWindowService
     {
-        /// <summary>
-        /// Окно редактирования заметки
-        /// </summary>
-        private NoteWindow _window;
-
-        //TODO: передавать базовый класс небезопасно - сервис работает с одной конкретной VM
+        //TODO: передавать базовый класс небезопасно - сервис работает с одной конкретной VM (DONE)
         /// <inheritdoc/>
-        public bool? OpenWindow(ViewModelBase viewModel)
+        public bool? OpenWindow(Note note)
         {
-            _window = new NoteWindow();
-            var vm = (NoteVM) viewModel;
+            var window = new NoteWindow();
+            var viewModel = new NoteVM(note, new MessageBoxService());
 
-            if (vm.CloseAction == null)
+            if (viewModel.CloseAction == null)
             {
-                vm.CloseAction = new Action(_window.Close);
+                viewModel.CloseAction = new Action(window.Close);
             }
 
-            _window.DataContext = viewModel;
-            _window.ShowDialog();
+            window.DataContext = viewModel;
+            window.ShowDialog();
 
-            return vm.DialogResult;
+            return viewModel.DialogResult;
         }
     }
 }

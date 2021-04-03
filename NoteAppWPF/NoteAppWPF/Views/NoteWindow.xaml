@@ -13,6 +13,12 @@
         <DrawingImage />
     </Window.Icon>
     <Window.Resources>
+        <Color
+            x:Key="DefaultColor"
+            A="255"
+            B="240"
+            G="240"
+            R="240" />
         <Style TargetType="Button">
             <Setter Property="Width" Value="75" />
             <Setter Property="Margin" Value="3" />

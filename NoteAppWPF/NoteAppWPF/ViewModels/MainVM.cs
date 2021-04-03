@@ -36,9 +36,8 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private RelayCommand<object> _addNoteCommand;
 
-        //TODO: грамошибка в комментарии
         /// <summary>
-        /// Команда редактировани заметки
+        /// Команда редактирования заметки
         /// </summary>
         private RelayCommand<object> _editNoteCommand;
 
@@ -56,6 +55,21 @@ namespace NoteAppWPF.ViewModels
         /// Команда закрытия приложения
         /// </summary>
         private RelayCommand<object> _exitCommand;
+
+        /// <summary>
+        /// Сервис для работы с окном редактирования заметки
+        /// </summary>
+        private readonly INoteWindowService _noteWindowService;
+
+        /// <summary>
+        /// Сервис для работы со справочным окном
+        /// </summary>
+        private readonly IAboutWindowService _aboutWindowService;
+
+        /// <summary>
+        /// Сервис для работы с окном вывода сообщения
+        /// </summary>
+        private readonly IMessageBoxService _messageBoxService;
 
         /// <summary>
         /// Возвращает и задает список заметок, сортированный по дате изменения
@@ -125,11 +139,9 @@ namespace NoteAppWPF.ViewModels
                        (_addNoteCommand = new RelayCommand<object>(obj =>
                        {
                            var note = new Note();
-                           var viewModel = new NoteVM(note);
-                           // TODO: VM не должна создавать экземпляры конкретных сервисов!
+                           // TODO: VM не должна создавать экземпляры конкретных сервисов! (DONE)
                            // Работа только через интерфейсы сервисов, экземпляры которых передаются в конструктор
-                           var windowService = new NoteWindowService();
-                           var result = windowService.OpenWindow(viewModel);
+                           var result = _noteWindowService.OpenWindow(note);
 
                            if (result != true)
                            {
@@ -161,10 +173,8 @@ namespace NoteAppWPF.ViewModels
 
                            var note = (Note) SelectedNote.Clone();
                            var realIndexInProject = _project.Notes.IndexOf(note);
-                           // TODO: см. выше
-                           var viewModel = new NoteVM(note);
-                           var windowService = new NoteWindowService();
-                           var result = windowService.OpenWindow(viewModel);
+                           // TODO: см. выше (DONE)
+                           var result = _noteWindowService.OpenWindow(note);
 
                            if (result != true)
                            {
@@ -194,9 +204,8 @@ namespace NoteAppWPF.ViewModels
                            {
                                return;
                            }
-                           // TODO: см. выше
-                           var messageBoxService = new MessageBoxService();
-                           var result = messageBoxService.ShowMessage(
+                           // TODO: см. выше (DONE)
+                           var result = _messageBoxService.ShowMessage(
                                $"Do you really want to remove this note: {SelectedNote}",
                                "Remove Note",
                                MessageBoxButton.OKCancel,
@@ -224,10 +233,8 @@ namespace NoteAppWPF.ViewModels
                 return _openAboutWindowCommand ??
                        (_openAboutWindowCommand = new RelayCommand<object>(obj =>
                        {
-                           // TODO: см. выше
-                           var viewModel = new AboutVM();
-                           var windowService = new AboutWindowService();
-                           windowService.OpenWindow(viewModel);
+                           // TODO: см. выше (DONE)
+                           _aboutWindowService.OpenWindow();
                        }));
             }
         }
@@ -280,9 +287,16 @@ namespace NoteAppWPF.ViewModels
         /// <summary>
         /// Создает экземпляр класса <see cref="MainVM"/>
         /// </summary>
-        public MainVM()
+        /// <param name="noteWindowService"></param>
+        /// <param name="aboutWindowService"></param>
+        /// <param name="messageBoxService"></param>
+        public MainVM(INoteWindowService noteWindowService, IAboutWindowService aboutWindowService,
+            IMessageBoxService messageBoxService)
         {
             _project = ProjectManager.LoadFromFile(ProjectManager.DefaultPath);
+            _noteWindowService = noteWindowService;
+            _aboutWindowService = aboutWindowService;
+            _messageBoxService = messageBoxService;
 
             Categories = Enum.GetNames(typeof(NoteCategory)).ToList();
             Categories.Add("All");

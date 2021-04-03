@@ -20,9 +20,8 @@ namespace NoteAppWPF.ViewModels
         /// </summary>
         private Note _currentNote;
 
-        // TODO: грамошибки в комментах
         /// <summary>
-        /// Команда закрытия окна с сохраненем данных
+        /// Команда закрытия окна с сохранением данных
         /// </summary>
         private RelayCommand<object> _okCommand;
 
@@ -30,6 +29,11 @@ namespace NoteAppWPF.ViewModels
         /// Команда закрытия окна без сохранения данных
         /// </summary>
         private RelayCommand<object> _cancelCommand;
+
+        /// <summary>
+        /// Сервис для работы с окном вывода сообщения
+        /// </summary>
+        private readonly IMessageBoxService _messageBoxService;
 
         /// <summary>
         /// Возвращает и задает текущую заметку
@@ -43,9 +47,9 @@ namespace NoteAppWPF.ViewModels
                 RaisePropertyChanged(nameof(CurrentNote));
             }
         }
-        // TODO: грамошибки в комментах
+
         /// <summary>
-        /// Разультат работы окна редактирования заметки
+        /// Результат работы окна редактирования заметки
         /// </summary>
         public bool? DialogResult { get; private set; }
 
@@ -53,9 +57,9 @@ namespace NoteAppWPF.ViewModels
         /// Возвращает и задает действие при закрытии окна
         /// </summary>
         public Action CloseAction { get; set; }
-        // TODO: грамошибки
+        
         /// <summary>
-        /// Возвращает команду закрытия окна с сохраненем данных
+        /// Возвращает команду закрытия окна с сохранением данных
         /// </summary>
         public RelayCommand<object> OkCommand
         {
@@ -67,9 +71,8 @@ namespace NoteAppWPF.ViewModels
                            var isError = (bool) obj;
                            if (isError)
                            {
-                               // TODO: никакого создания кокнретных View на уровне VM
-                               var messageBoxService = new MessageBoxService();
-                               messageBoxService.ShowMessage("Invalid values entered", "Error",
+                               // TODO: никакого создания кокнретных View на уровне VM (DONE)
+                               _messageBoxService.ShowMessage("Invalid values entered", "Error",
                                    MessageBoxButton.OK, MessageBoxImage.Error);
                            }
                            else
@@ -106,8 +109,10 @@ namespace NoteAppWPF.ViewModels
         /// Создает экземпляр класса <see cref="NoteVM"/>
         /// </summary>
         /// <param name="note"></param>
-        public NoteVM(Note note)
+        /// <param name="messageBoxService"></param>
+        public NoteVM(Note note, IMessageBoxService messageBoxService)
         {
+            _messageBoxService = messageBoxService;
             CurrentNote = note;
             Categories = Enum.GetValues(typeof(NoteCategory)).Cast<NoteCategory>().ToList();
         }

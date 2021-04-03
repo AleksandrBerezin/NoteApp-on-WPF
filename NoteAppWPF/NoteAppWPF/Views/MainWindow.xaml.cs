@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using NoteAppWPF.Services;
 using NoteAppWPF.ViewModels;
 
 namespace NoteAppWPF.Views
@@ -12,7 +13,7 @@ namespace NoteAppWPF.Views
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainVM();
+            DataContext = new MainVM(new NoteWindowService(), new AboutWindowService(), new MessageBoxService());
         }
     }
 }

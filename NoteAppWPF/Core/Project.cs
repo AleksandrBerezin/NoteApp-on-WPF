@@ -20,14 +20,6 @@ namespace Core
         public Note CurrentNote { get; set; }
 
         /// <summary>
-        /// Создает экземпляр <see cref="Project"/>
-        /// </summary>
-        public Project()
-        {
-            // TODO: зачем пустой конструктор?
-        }
-
-        /// <summary>
         /// Метод для сортировки списка заметок по дате изменения (по убыванию)
         /// </summary>
         /// <returns></returns>

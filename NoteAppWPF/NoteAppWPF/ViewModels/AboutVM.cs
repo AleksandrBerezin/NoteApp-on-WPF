@@ -8,11 +8,5 @@ namespace NoteAppWPF.ViewModels
     /// </summary>
     public class AboutVM : ViewModelBase
     {
-        /// <summary>
-        /// Создает экземпляр <see cref="AboutVM"/>
-        /// </summary>
-        public AboutVM()
-        {
-        }
     }
 }
